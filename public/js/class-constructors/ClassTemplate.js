@@ -106,5 +106,3 @@ const TestClass = new ClassTemplate(
   },
   ["children", "adult", "soapmaking", "reiki"]
 )
-
-console.log("hello world")

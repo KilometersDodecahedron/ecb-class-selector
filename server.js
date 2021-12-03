@@ -1,5 +1,6 @@
 var express = require("express")
 var exphbs = require("express-handlebars")
+const mongoose = require("mongoose")
 
 var routes = require("./controllers/class_controller.js")
 

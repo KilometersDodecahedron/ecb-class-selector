@@ -202,6 +202,10 @@ const modalRequest = {
   },
 }
 
+modalRequest.time.addEventListener("click", () => {
+  console.log(typeof modalRequest.time.value)
+})
+
 const alternatingColorRequestArray = modalRequest.holder.querySelectorAll(
   ".request-form-color-group"
 )
