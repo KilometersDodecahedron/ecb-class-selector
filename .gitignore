@@ -1,0 +1,6 @@
+config.js
+.vscode/
+.env
+node_modules/
+index.html
+class-details-modal.html
