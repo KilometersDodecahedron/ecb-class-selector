@@ -55,7 +55,7 @@ const classSchema = new Schema({
     },
   ],
   tags: [String],
-  date: Date,
+  date: { type: Date, default: Date.now },
 })
 
 const CraftClass = mongoose.model("CraftClass", classSchema)

@@ -2,7 +2,7 @@ var express = require("express")
 var exphbs = require("express-handlebars")
 const mongoose = require("mongoose")
 
-var routes = require("./controllers/class_controller.js")
+var routes = require("./routes")
 
 var PORT = process.env.PORT || 8080
 
@@ -17,7 +17,15 @@ app.use(express.json())
 app.engine("handlebars", exphbs.engine({ defaultLayout: "main" }))
 app.set("view engine", "handlebars")
 
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("client/build"))
+}
+
 app.use(routes)
+
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/class_database").catch(err => {
+  console.error(err)
+})
 
 // Start our server so that it can begin listening to client requests.
 app.listen(PORT, function () {

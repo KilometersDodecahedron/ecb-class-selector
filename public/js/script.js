@@ -15,7 +15,7 @@ const categoryButtonDropdownClassName = "browse-by-category"
 const tagButtonDropdownClassName = "browse-by-tag"
 const numberNavButtonClassName = "btn-class-nav"
 
-const maxClassesPerPage = 15
+const maxClassesPerPage = 12
 // track the current page number
 let currentPageNumber = 1
 let listOfClassesThatFitSearch = []

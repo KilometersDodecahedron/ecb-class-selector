@@ -58,10 +58,7 @@ const InquirySchema = new Schema({
     enum: ["adult", "child", "mixed"],
   },
   comments: String,
-  date: {
-    type: Date,
-    required: true,
-  },
+  date: { type: Date, default: Date.now },
 })
 
 const Inquiry = mongoose.model("Inquiry", InquirySchema)
