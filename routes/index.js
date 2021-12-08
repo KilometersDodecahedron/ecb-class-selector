@@ -2,11 +2,14 @@ const path = require("path")
 const router = require("express").Router()
 const apiRoutes = require("./api")
 
-router.use("/api", apiRoutes)
+// const mainAppPath = path.join(__dirname, "../views/layouts/main.handlebars")
+// console.log(mainAppPath)
 
 // router.use(function (req, res) {
-//   res.sendFile(path.join(__dirname, "../views/index.handlebars"))
+//   res.render(mainAppPath)
 // })
+
+router.use("/api", apiRoutes)
 
 router.use(function (req, res) {
   res.render(path.join(__dirname, "../views/index.handlebars"))
