@@ -4,7 +4,6 @@ const router = express.Router()
 
 module.exports = {
   testRead: function (req, res) {
-    console.log(req.query)
     db.Test.find(req.query)
       .sort({ date: -1 })
       .then(dbModel => res.json(dbModel))

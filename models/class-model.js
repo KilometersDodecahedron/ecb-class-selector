@@ -1,8 +1,16 @@
 const mongoose = require("mongoose")
 const Schema = mongoose.Schema
 
+const PhotoSchema = new Schema({
+  src: String,
+  alt: String,
+})
+
 const classSchema = new Schema({
-  name: String,
+  name: {
+    type: String,
+    required: true,
+  },
   description: String,
   duration: {
     string: String,
@@ -48,12 +56,7 @@ const classSchema = new Schema({
     child: Boolean,
     mixed: Boolean,
   },
-  photos: [
-    {
-      src: String,
-      alt: String,
-    },
-  ],
+  photos: [PhotoSchema],
   tags: [String],
   date: { type: Date, default: Date.now },
 })

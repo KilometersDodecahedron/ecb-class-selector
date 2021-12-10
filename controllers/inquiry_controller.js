@@ -4,24 +4,24 @@ const express = require("express")
 const router = express.Router()
 
 module.exports = {
-  getAllClasses: function (req, res) {
-    db.CraftClass.find(req.query)
+  getAllInquiries: function (req, res) {
+    db.Inquiry.find(req.query)
       .sort({ date: -1 })
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err))
   },
-  postClass: function (req, res) {
-    db.CraftClass.create(req.body)
+  postInquiries: function (req, res) {
+    db.Inquiry.create(req.body)
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err))
   },
-  updateClass: function (req, res) {
-    db.CraftClass.findOneAndUpdate({ _id: req.params.id }, req.body)
+  updateInquiries: function (req, res) {
+    db.Inquiry.findOneAndUpdate({ _id: req.params.id }, req.body)
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err))
   },
-  deleteClass: function (req, res) {
-    db.CraftClass.findById({ _id: req.params.id })
+  deleteInquiries: function (req, res) {
+    db.Inquiry.findById({ _id: req.params.id })
       .then(dbModel => dbModel.remove())
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err))

@@ -3,12 +3,9 @@ const testButton = document.querySelector("#test-connection")
 const testPost = () => {
   $.ajax({
     type: "POST",
-    url: "/api/test/create",
+    url: "/api/tag/create",
     dataType: "json",
-    data: {
-      name: "Fourth",
-      favoriteFood: "salmon",
-    },
+    data: testTagData,
   })
     .then(data => {
       console.log(data)
@@ -19,7 +16,7 @@ const testPost = () => {
 const testGet = () => {
   $.ajax({
     type: "GET",
-    url: "/api/test",
+    url: "/api/tag",
     context: this,
   })
     .then(data => {
@@ -44,7 +41,7 @@ const testGetByID = () => {
 const testUpdate = () => {
   $.ajax({
     type: "PUT",
-    url: "/api/test/update/61b10e618e8e4f336c9971bc",
+    url: "/api/tag/update/61b3a613e65f697b4a5c8bb2",
     context: this,
     data: { name: "not first" },
   })
@@ -57,7 +54,7 @@ const testUpdate = () => {
 const testDelete = () => {
   $.ajax({
     type: "DELETE",
-    url: "/api/test/delete/61b10e550a144abd0ae28951",
+    url: "/api/tag/delete/61b3a613e65f697b4a5c8bb2",
     context: this,
   })
     .then(data => {
@@ -66,4 +63,4 @@ const testDelete = () => {
     .catch(err => console.log(err))
 }
 
-testButton.addEventListener("click", testGet)
+testButton.addEventListener("click", testPost)
