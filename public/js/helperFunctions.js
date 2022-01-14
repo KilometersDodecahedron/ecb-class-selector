@@ -21,3 +21,56 @@ function goToTopOfPage() {
     // behavior: "smooth",
   })
 }
+
+// for displaying time
+const formatAMPM = date => {
+  let hours = date.getHours()
+  let minutes = date.getMinutes()
+  let ampm = hours >= 12 ? "pm" : "am"
+  hours = hours % 12
+  hours = hours ? hours : 12
+  minutes = minutes.toString().padStart(2, "0")
+  let strTime = hours + ":" + minutes + " " + ampm
+  return strTime
+}
+
+function HELPER_convertArmyTimeToEST(armyTimeString, timezone, date) {
+  let [hours, minutes] = armyTimeString.split(":")
+
+  date = new Date(date)
+  let requestedDateAndTime = new Date(date.setHours(hours))
+  requestedDateAndTime.setMinutes(minutes)
+  let localDateAndTime = new Date(requestedDateAndTime)
+
+  let requestedDateString = `${
+    requestedDateAndTime.getMonth() + 1
+  }/${requestedDateAndTime.getDate()}/${requestedDateAndTime.getFullYear()}`
+
+  let requestedTimeString = formatAMPM(requestedDateAndTime)
+
+  let localDateString = requestedDateString
+  let localTimeString = requestedTimeString
+
+  if (timezone && timezone != "-05:00") {
+    let _hourOffset = Number(timezone.split(":")[0]) + 5
+
+    let _minuteOffset = Number(timezone.split(":")[1])
+
+    if (_minuteOffset > 0) _hourOffset--
+
+    _minuteOffset = (_minuteOffset / 50) * 30
+
+    localDateAndTime.setHours(localDateAndTime.getHours() + _hourOffset)
+    localDateAndTime.setMinutes(localDateAndTime.getMinutes() + _minuteOffset)
+
+    localDateString = `${
+      localDateAndTime.getMonth() + 1
+    }/${localDateAndTime.getDate()}/${localDateAndTime.getFullYear()}`
+
+    localTimeString = formatAMPM(localDateAndTime)
+  }
+
+  return minutes
+    ? [requestedTimeString, localTimeString, requestedDateString, localDateString]
+    : [undefined, undefined, undefined, undefined]
+}

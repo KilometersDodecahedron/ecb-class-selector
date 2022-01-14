@@ -18,15 +18,27 @@ const numberNavButtonClassName = "btn-class-nav"
 const maxClassesPerPage = 12
 // track the current page number
 let currentPageNumber = 1
+// TODO store all classes here, then sort and filter classes in listOfClassesThatFitSearch
+let allClasses = []
 let listOfClassesThatFitSearch = []
 
 const fetchClassData = () => {
   // TODO make Asynch to pull data from AWS
-  listOfClassesThatFitSearch = returnClassData()
-  displayCurrentSetOfClasses()
-  if (listOfClassesThatFitSearch.length > maxClassesPerPage) {
-    populateNumberButtons()
-  }
+  getAllClasses(_data => {
+    allClasses = _data
+    listOfClassesThatFitSearch = _data
+    displayCurrentSetOfClasses()
+    if (listOfClassesThatFitSearch.length > maxClassesPerPage) {
+      populateNumberButtons()
+    }
+  })
+}
+
+const setClassList = () => {
+  getAllClasses(_data => {
+    classList = _data
+    console.log(classList)
+  })
 }
 
 const displayCurrentSetOfClasses = () => {
@@ -74,8 +86,11 @@ const createClassDisplayFromTemplate = index => {
   const classDisplayClone = displayTemplate.content.cloneNode(true)
   const previewImage = classDisplayClone.querySelector(".class-preview-img")
   const classNameDisplay = classDisplayClone.querySelector(".class-name")
+  const displayButton = classDisplayClone.querySelector(".btn-class-view")
 
-  previewImage.src = listOfClassesThatFitSearch[index].imgSrc
+  previewImage.src = listOfClassesThatFitSearch[index].photos[0].src
+  previewImage.alt = listOfClassesThatFitSearch[index].photos[0].alt
+  displayButton.dataset.classNumber = index
   classNameDisplay.innerHTML = listOfClassesThatFitSearch[index].name
 
   return classDisplayClone
@@ -96,7 +111,7 @@ const viewClassButtonFunction = e => {
   if (!e.target.classList.contains(viewClassButtonClassName)) return
 
   // TODO pass data from button to modal
-  processClassData(TestClass)
+  processClassData(listOfClassesThatFitSearch[e.target.dataset.classNumber])
 
   modalDisplay.holder.classList.add("modal-holder--visible")
   modalDisplay.holder.classList.remove("modal-holder--invisible")

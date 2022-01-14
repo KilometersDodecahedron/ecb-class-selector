@@ -150,7 +150,7 @@ const testTagData = {
 }
 
 const testStructuredData = {
-  name: "Test Class",
+  name: "Test Class All Fields and Also a Really long name to stress test the display field",
   description: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
 molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum
 numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium
@@ -179,31 +179,31 @@ quasi aliquam eligendi, placeat qui corporis!`,
   disclaimer: "This is a test entry, not an actual class",
   availability: {
     virtual: true,
-    virtualNoKit: false,
-    inPerson: false,
+    virtualNoKit: true,
+    inPerson: true,
   },
   allowedLocations: {
-    virtualOnly: true,
-    boutique: false,
-    montclairWomanClub: false,
-    customVenue: false,
+    virtualOnly: false,
+    boutique: true,
+    montclairWomanClub: true,
+    customVenue: true,
   },
   price: {
-    hasOnePrice: true,
+    hasOnePrice: false,
     singlePrice: "$50 per Person",
     priceForSearchFunction: 50,
     multiplePrices: {
       virtual: {
         available: true,
-        price: "None",
+        price: "$75 per Person",
       },
       virtualNoKit: {
         available: false,
-        price: "None",
+        price: "$50 per Person",
       },
       inPerson: {
         available: false,
-        price: "None",
+        price: "$40 per Person",
       },
     },
   },
@@ -234,5 +234,9 @@ quasi aliquam eligendi, placeat qui corporis!`,
       alt: "Pug in blanket",
     },
   ],
+  video: {
+    hasVideo: true,
+    link: "https://www.youtube.com/embed/ZKBlMWI6nO4",
+  },
   tags: ["Good For Groups", "Safe for Kids", "All Ages"],
 }

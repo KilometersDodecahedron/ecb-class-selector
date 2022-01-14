@@ -9,6 +9,9 @@ let carouselDotsArray = Array.from(carouselDotsNavHolder.children)
 const carouselSlideTemplate = document.querySelector("#carouselSlideTemplate")
 const carouselDotTemplate = document.querySelector("#carouselNavButton")
 
+let currentClassID = ""
+let currentClassName = ""
+
 // Modal Display Elements
 const modalDisplay = {
   holder: document.querySelector(".modal-holder"),
@@ -26,9 +29,32 @@ const modalDisplay = {
   closeButton: document.querySelector(".modal-x-btn"),
 }
 
+// input labels to turn red when not filled
+const essentialFieldsForWarning = {
+  firstName: document.querySelector(".essential-field-first-name"),
+  lastName: document.querySelector(".essential-field-last-name"),
+  email: document.querySelector(".essential-field-email"),
+  phoneNumber: document.querySelector(".essential-field-phone-number"),
+  participants: document.querySelector(".essential-field-participants"),
+  date: document.querySelector(".essential-field-date"),
+  time: document.querySelector(".essential-field-time"),
+  address: document.querySelector(".essential-field-address"),
+  resetWarningDisplays: () => {
+    essentialFieldsForWarning.firstName.classList.remove("essential-field-unfilled")
+    essentialFieldsForWarning.lastName.classList.remove("essential-field-unfilled")
+    essentialFieldsForWarning.email.classList.remove("essential-field-unfilled")
+    essentialFieldsForWarning.phoneNumber.classList.remove("essential-field-unfilled")
+    essentialFieldsForWarning.participants.classList.remove("essential-field-unfilled")
+    essentialFieldsForWarning.date.classList.remove("essential-field-unfilled")
+    essentialFieldsForWarning.time.classList.remove("essential-field-unfilled")
+    essentialFieldsForWarning.address.classList.remove("essential-field-unfilled")
+  },
+}
+
 // Modal Request Elements  for
 const modalRequest = {
   holder: document.querySelector(".request-form-holder"),
+  form: document.querySelector(".request-form"),
   firstName: document.querySelector("#first-name"),
   lastName: document.querySelector("#last-name"),
   email: document.querySelector("#email"),
@@ -72,6 +98,10 @@ const modalRequest = {
     adultHolder: document.querySelector("#adult-age-holder"),
     childHolder: document.querySelector("#child-age-holder"),
     mixedHolder: document.querySelector("#mixed-age-holder"),
+  },
+  giftOption: {
+    yes: document.querySelector("#gift-option-yes"),
+    no: document.querySelector("#gift-option-no"),
   },
   comments: document.querySelector("#request-form-option-name"),
   submitButton: document.querySelector("#submit-button"),
@@ -119,7 +149,9 @@ const modalRequest = {
     }
     if (availabilityTracker > 1) {
       modalRequest.classTypeHolder.classList.remove("invisible")
+      console.log(modalRequest.classTypeHolder.classList)
     }
+
     // timezone
     if (data.availability.virtual == false && data.availability.virtualNoKit == false) {
       modalRequest.timezoneHolders.classList.add("invisible")
@@ -198,13 +230,77 @@ const modalRequest = {
     modalRequest.time.value = ""
     requestFormTimezoneDropdown[8].selected = "selected"
     modalRequest.location.hostAddress.value = ""
+    modalRequest.giftOption.no.checked = true
     modalRequest.comments.value = ""
+    essentialFieldsForWarning.resetWarningDisplays()
+  },
+  getFormData: () => {
+    let _phoneNumberType = modalRequest.phoneNumberOptions.cellphone.checked ? "cell" : "landline"
+
+    let _classType = ""
+    if (modalRequest.classType.virtual.checked) _classType = "virtual"
+    else if (modalRequest.classType.inPerson.checked) _classType = "in person"
+    else if (modalRequest.classType.virtualNoKit.checked) _classType = "virtual no kit"
+
+    let [estTime, localTime, estDate, localDate] = HELPER_convertArmyTimeToEST(
+      modalRequest.time.value,
+      modalRequest.timezone.value,
+      modalRequest.date.value
+    )
+
+    let _ageGroup = ""
+    if (modalRequest.ageGroup.child.checked) _ageGroup = "Child"
+    else if (modalRequest.ageGroup.adult.checked) _ageGroup = "Adult"
+    else if (modalRequest.ageGroup.mixed.checked) _ageGroup = "Mixed"
+
+    let _location = ""
+    let _address = "NA"
+    if (_classType == "virtual" || _classType == "virtual no kit") {
+      _location = "Virtual"
+    } else if (modalRequest.location.store.checked) {
+      _location = "ECB"
+    } else if (modalRequest.location.club.checked) {
+      _location = "Women's Club"
+    } else if (modalRequest.location.host.checked) {
+      _location = "Host Venue"
+      _address = modalRequest.location.hostAddress.value
+    }
+
+    const formData = {
+      nameOfRequestedClass: currentClassName,
+      idOfRequestedClass: currentClassID,
+      firstName: modalRequest.firstName.value,
+      lastName: modalRequest.lastName.value,
+      email: modalRequest.email.value,
+      phoneNumber: Number(modalRequest.phoneNumber.value),
+      phoneNumberType: _phoneNumberType,
+      participants: Number(modalRequest.participants.value),
+      classType: _classType,
+      requestedDate: estDate,
+      requestedTime: estTime,
+      timezone: modalRequest.timezone.value,
+      localDate: localDate,
+      localTime: localTime,
+      ageGroup: _ageGroup,
+      giftOption: modalRequest.giftOption.yes.checked,
+      location: {
+        locationType: _location,
+        hostAddress: _address,
+      },
+      comments: modalRequest.comments.value,
+    }
+    return formData
+  },
+  checkIfAllNecessaryInfoIsPresent: _formData => {
+    let errorDiscovered = false
+    console.log(_formData)
+  },
+  submitButtonFunction: () => {
+    let _data = modalRequest.getFormData()
+    modalRequest.checkIfAllNecessaryInfoIsPresent(_data)
+    postInquiry(_data)
   },
 }
-
-modalRequest.time.addEventListener("click", () => {
-  console.log(typeof modalRequest.time.value)
-})
 
 const alternatingColorRequestArray = modalRequest.holder.querySelectorAll(
   ".request-form-color-group"
@@ -421,12 +517,18 @@ const processClassData = data => {
     data.minimumParticipants
   )
   modalDisplay.ageGroup.innerHTML = processClassAge(data.ageGroup)
+  currentClassID = data._id
+  currentClassName = data.name
   processClassPhotos(data.photos)
   processClassVideos(data.video)
   modalRequest.processClassRequestInputOptions(data)
 }
 
-processClassData(TestClass)
+modalRequest.submitButton.addEventListener("click", e => {
+  e.preventDefault()
+  // TODO make submit data
+  modalRequest.submitButtonFunction()
+})
 
 // request button toggle
 modalDisplay.requestButton.addEventListener("click", e => {

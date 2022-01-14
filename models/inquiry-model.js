@@ -2,6 +2,10 @@ const mongoose = require("mongoose")
 const Schema = mongoose.Schema
 
 const InquirySchema = new Schema({
+  nameOfRequestedClass: {
+    type: String,
+    required: true,
+  },
   idOfRequestedClass: {
     type: String,
     required: true,
@@ -27,6 +31,10 @@ const InquirySchema = new Schema({
     required: true,
     enum: ["cell", "landline"],
   },
+  participants: {
+    type: Number,
+    required: true,
+  },
   classType: {
     type: String,
     required: true,
@@ -44,18 +52,30 @@ const InquirySchema = new Schema({
     type: String,
     required: true,
   },
+  localTime: {
+    type: String,
+    required: true,
+  },
+  localDate: {
+    type: Date,
+    required: true,
+  },
   location: {
     locationType: {
       type: String,
       required: true,
-      enum: ["ECB", "Women's Club", "Host Venue"],
+      enum: ["ECB", "Women's Club", "Host Venue", "Virtual"],
     },
     hostAddress: String,
   },
   ageGroup: {
     type: String,
     required: true,
-    enum: ["adult", "child", "mixed"],
+    enum: ["Adult", "Child", "Mixed"],
+  },
+  giftOption: {
+    type: Boolean,
+    required: true,
   },
   comments: String,
   date: { type: Date, default: Date.now },

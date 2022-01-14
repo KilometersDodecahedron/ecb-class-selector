@@ -57,8 +57,13 @@ const classSchema = new Schema({
     mixed: Boolean,
   },
   photos: [PhotoSchema],
+  video: {
+    hasVideo: Boolean,
+    link: String,
+  },
   tags: [String],
-  date: { type: Date, default: Date.now },
+  dateCreated: { type: Date },
+  dateLastUpdated: { type: Date, default: Date.now },
 })
 
 const CraftClass = mongoose.model("CraftClass", classSchema)

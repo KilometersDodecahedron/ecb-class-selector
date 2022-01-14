@@ -1,19 +1,25 @@
 const testButton2 = document.querySelector("#test-connection-class")
 
-const postClass = _data => {
+const postClass = (_data, callback) => {
+  let postData = _data
+  postData.dateCreated = Date.now()
+
   $.ajax({
     type: "POST",
     url: "/api/craft_class/create",
     dataType: "json",
-    data: _data,
+    data: postData,
   })
     .then(data => {
       console.log(data)
+      if (callback) {
+        callback(data)
+      }
     })
     .catch(err => console.log(err))
 }
 
-const getAllClasses = () => {
+const getAllClasses = callback => {
   $.ajax({
     type: "GET",
     url: "/api/craft_class",
@@ -21,42 +27,55 @@ const getAllClasses = () => {
   })
     .then(data => {
       console.log(data)
+      if (callback) {
+        callback(data)
+      }
     })
     .catch(err => console.log(err))
 }
 
-const updateClass = () => {
+const updateClass = (newData, id, callback) => {
   $.ajax({
     type: "PUT",
-    url: "/api/craft_class/update/61b3c7f1a9c8fb536be99149",
+    url: "/api/craft_class/update/" + id,
     context: this,
-    data: {
-      duration: {
-        string: "2 to 3 hours",
-        num: 2,
-      },
-    },
+    data: newData,
   })
     .then(data => {
       console.log(data)
+      if (callback) {
+        callback(data)
+      }
     })
     .catch(err => console.log(err))
 }
 
-const deleteClass = () => {
+const deleteClass = (id, callback) => {
   $.ajax({
     type: "DELETE",
-    url: "/api/craft_class/delete/61b3c7f1a9c8fb536be99149",
+    url: "/api/craft_class/delete/" + id,
     context: this,
   })
     .then(data => {
       console.log(data)
+      if (callback) {
+        callback(data)
+      }
     })
     .catch(err => console.log(err))
+}
+
+var testingClassData = undefined
+const newVideoData = {
+  name: "Second Test",
 }
 
 testButton2.addEventListener("click", () => {
   //   console.log(testStructuredData)
   //   postClass(testStructuredData)
-  getAllClasses()
+  updateClass(
+    { video: { hasVideo: true, link: "https://www.youtube.com/embed/sshZ8B7YQDY" } },
+    "61ba590e4e20d61e13070509"
+  )
+  // getAllClasses()
 })

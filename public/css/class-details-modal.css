@@ -236,7 +236,9 @@ div.request-form-color-group {
   padding-top: 1rem;
 }
 
-
+label.request-label.essential-field-unfilled {
+  color: red
+}
 
 #participants {
   width: 100px;
