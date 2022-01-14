@@ -240,6 +240,10 @@ label.request-label.essential-field-unfilled {
   color: red
 }
 
+label.request-option.essential-field-unfilled {
+  color: red
+}
+
 #participants {
   width: 100px;
 }

@@ -39,15 +39,76 @@ const essentialFieldsForWarning = {
   date: document.querySelector(".essential-field-date"),
   time: document.querySelector(".essential-field-time"),
   address: document.querySelector(".essential-field-address"),
+  CSSTerm: "essential-field-unfilled",
   resetWarningDisplays: () => {
-    essentialFieldsForWarning.firstName.classList.remove("essential-field-unfilled")
-    essentialFieldsForWarning.lastName.classList.remove("essential-field-unfilled")
-    essentialFieldsForWarning.email.classList.remove("essential-field-unfilled")
-    essentialFieldsForWarning.phoneNumber.classList.remove("essential-field-unfilled")
-    essentialFieldsForWarning.participants.classList.remove("essential-field-unfilled")
-    essentialFieldsForWarning.date.classList.remove("essential-field-unfilled")
-    essentialFieldsForWarning.time.classList.remove("essential-field-unfilled")
-    essentialFieldsForWarning.address.classList.remove("essential-field-unfilled")
+    essentialFieldsForWarning.firstName.classList.remove(essentialFieldsForWarning.CSSTerm)
+    essentialFieldsForWarning.lastName.classList.remove(essentialFieldsForWarning.CSSTerm)
+    essentialFieldsForWarning.email.classList.remove(essentialFieldsForWarning.CSSTerm)
+    essentialFieldsForWarning.phoneNumber.classList.remove(essentialFieldsForWarning.CSSTerm)
+    essentialFieldsForWarning.participants.classList.remove(essentialFieldsForWarning.CSSTerm)
+    essentialFieldsForWarning.date.classList.remove(essentialFieldsForWarning.CSSTerm)
+    essentialFieldsForWarning.time.classList.remove(essentialFieldsForWarning.CSSTerm)
+    essentialFieldsForWarning.address.classList.remove(essentialFieldsForWarning.CSSTerm)
+  },
+  checkIfAllNecessaryInfoIsPresent: _formData => {
+    let noErrorsDiscovered = true
+    if (_formData.firstName.length < 1) {
+      noErrorsDiscovered = false
+      essentialFieldsForWarning.firstName.classList.add(essentialFieldsForWarning.CSSTerm)
+    } else {
+      essentialFieldsForWarning.firstName.classList.remove(essentialFieldsForWarning.CSSTerm)
+    }
+    if (_formData.lastName.length < 1) {
+      noErrorsDiscovered = false
+      essentialFieldsForWarning.lastName.classList.add(essentialFieldsForWarning.CSSTerm)
+    } else {
+      essentialFieldsForWarning.lastName.classList.remove(essentialFieldsForWarning.CSSTerm)
+    }
+    if (!validMail(_formData.email)) {
+      noErrorsDiscovered = false
+      essentialFieldsForWarning.email.classList.add(essentialFieldsForWarning.CSSTerm)
+    } else {
+      essentialFieldsForWarning.email.classList.remove(essentialFieldsForWarning.CSSTerm)
+    }
+    if (!validPhoneNumber(_formData.phoneNumber)) {
+      noErrorsDiscovered = false
+      essentialFieldsForWarning.phoneNumber.classList.add(essentialFieldsForWarning.CSSTerm)
+    } else {
+      essentialFieldsForWarning.phoneNumber.classList.remove(essentialFieldsForWarning.CSSTerm)
+    }
+    if (_formData.participants <= 0) {
+      noErrorsDiscovered = false
+      essentialFieldsForWarning.participants.classList.add(essentialFieldsForWarning.CSSTerm)
+    } else {
+      essentialFieldsForWarning.participants.classList.remove(essentialFieldsForWarning.CSSTerm)
+    }
+    if (
+      !_formData.localDate ||
+      _formData.localDate == "NaN/NaN/NaN" ||
+      new Date(_formData.localDate) < new Date()
+    ) {
+      noErrorsDiscovered = false
+      essentialFieldsForWarning.date.classList.add(essentialFieldsForWarning.CSSTerm)
+    } else {
+      essentialFieldsForWarning.date.classList.remove(essentialFieldsForWarning.CSSTerm)
+    }
+    if (!_formData.localTime) {
+      noErrorsDiscovered = false
+      essentialFieldsForWarning.time.classList.add(essentialFieldsForWarning.CSSTerm)
+    } else {
+      essentialFieldsForWarning.time.classList.remove(essentialFieldsForWarning.CSSTerm)
+    }
+    if (
+      _formData.location.hostAddress.length < 1 &&
+      _formData.location.locationType == "Host Venue"
+    ) {
+      noErrorsDiscovered = false
+      essentialFieldsForWarning.address.classList.add(essentialFieldsForWarning.CSSTerm)
+    } else {
+      essentialFieldsForWarning.address.classList.remove(essentialFieldsForWarning.CSSTerm)
+    }
+
+    return noErrorsDiscovered
   },
 }
 
@@ -291,14 +352,15 @@ const modalRequest = {
     }
     return formData
   },
-  checkIfAllNecessaryInfoIsPresent: _formData => {
-    let errorDiscovered = false
-    console.log(_formData)
-  },
   submitButtonFunction: () => {
     let _data = modalRequest.getFormData()
-    modalRequest.checkIfAllNecessaryInfoIsPresent(_data)
-    postInquiry(_data)
+    if (essentialFieldsForWarning.checkIfAllNecessaryInfoIsPresent(_data)) {
+      postInquiry(_data)
+      modalDisplay.holder.classList.remove("modal-holder--visible")
+      modalDisplay.holder.classList.add("modal-holder--invisible")
+    } else {
+      console.log(_data)
+    }
   },
 }
 

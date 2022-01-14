@@ -74,3 +74,13 @@ function HELPER_convertArmyTimeToEST(armyTimeString, timezone, date) {
     ? [requestedTimeString, localTimeString, requestedDateString, localDateString]
     : [undefined, undefined, undefined, undefined]
 }
+
+function validMail(mail) {
+  return /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()\.,;\s@\"]+\.{0,1})+([^<>()\.,;:\s@\"]{2,}|[\d\.]+))$/.test(
+    mail
+  )
+}
+
+function validPhoneNumber(phoneNumber) {
+  return /^(\+\d{1,2}\s?)?1?\-?\.?\s?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/.test(phoneNumber)
+}
