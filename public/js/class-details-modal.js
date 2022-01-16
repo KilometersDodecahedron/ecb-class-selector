@@ -12,6 +12,10 @@ const carouselDotTemplate = document.querySelector("#carouselNavButton")
 let currentClassID = ""
 let currentClassName = ""
 
+let confirmationPopupHolder = document.querySelector(".confirmation-popup-holder")
+let confirmationPopupOkButton = document.querySelector(".confirmation-ok-btn")
+let confirmationPopupEmailDisplay = document.querySelector(".confirmation-email")
+
 // Modal Display Elements
 const modalDisplay = {
   holder: document.querySelector(".modal-holder"),
@@ -358,6 +362,8 @@ const modalRequest = {
       postInquiry(_data)
       modalDisplay.holder.classList.remove("modal-holder--visible")
       modalDisplay.holder.classList.add("modal-holder--invisible")
+      confirmationPopupEmailDisplay.innerHTML = _data.email
+      confirmationPopupHolder.classList.remove("invisible")
     } else {
       console.log(_data)
     }
@@ -595,6 +601,11 @@ modalRequest.submitButton.addEventListener("click", e => {
 // request button toggle
 modalDisplay.requestButton.addEventListener("click", e => {
   modalRequest.holder.classList.toggle("invisible")
+})
+
+console.log(confirmationPopupHolder)
+confirmationPopupOkButton.addEventListener("click", e => {
+  confirmationPopupHolder.classList.add("invisible")
 })
 
 modalRequest.setAlternatingRequestColors()
