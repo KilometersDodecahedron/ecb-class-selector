@@ -60,6 +60,36 @@ const InquirySchema = new Schema({
     type: Date,
     required: true,
   },
+  dateTimeFallbackOptions: {
+    secondChoice: {
+      requestedDate: {
+        type: Date,
+      },
+      requestedTime: {
+        type: String,
+      },
+      localTime: {
+        type: String,
+      },
+      localDate: {
+        type: Date,
+      },
+    },
+    thirdChoice: {
+      requestedDate: {
+        type: Date,
+      },
+      requestedTime: {
+        type: String,
+      },
+      localTime: {
+        type: String,
+      },
+      localDate: {
+        type: Date,
+      },
+    },
+  },
   location: {
     locationType: {
       type: String,
@@ -79,6 +109,41 @@ const InquirySchema = new Schema({
   },
   comments: String,
   date: { type: Date, default: Date.now },
+  // processing variables
+  processed: {
+    status: {
+      type: String,
+      default: "New",
+      enum: ["New", "Pending", "Booked", "Completed", "Canceled"],
+    },
+    dates: {
+      respondedAndPending: {
+        type: String,
+        default: "",
+      },
+      booked: {
+        type: String,
+        default: "",
+      },
+      completed: {
+        type: String,
+        default: "",
+      },
+      canceled: {
+        type: String,
+        default: "",
+      },
+    },
+    responseEmailBody: String,
+    customMessage: String,
+    paymentLink: String,
+    notesForPending: String,
+    dateSelected: String,
+    hasSentResponseAferCompletedClass: {
+      type: Boolean,
+      default: false,
+    },
+  },
 })
 
 const Inquiry = mongoose.model("Inquiry", InquirySchema)

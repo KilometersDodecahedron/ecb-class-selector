@@ -150,7 +150,7 @@ const testTagData = {
 }
 
 const testStructuredData = {
-  name: "Test Class All Fields and Also a Really long name to stress test the display field",
+  name: "Testing the Restructured Price Option",
   description: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
 molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum
 numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium
@@ -189,21 +189,28 @@ quasi aliquam eligendi, placeat qui corporis!`,
     customVenue: true,
   },
   price: {
-    hasOnePrice: false,
-    singlePrice: "$50 per Person",
-    priceForSearchFunction: 50,
+    // hasOnePrice: false,
+    // singlePrice: "$50 per Person",
+    priceForSearchFunction: {
+      lowRange: 60,
+      highRange: 90,
+    },
     multiplePrices: {
       virtual: {
         available: true,
         price: "$75 per Person",
       },
       virtualNoKit: {
-        available: false,
+        available: true,
         price: "$50 per Person",
       },
       inPerson: {
-        available: false,
+        available: true,
         price: "$40 per Person",
+      },
+      addOn: {
+        available: true,
+        price: "+$10 per rocket squirrel",
       },
     },
   },

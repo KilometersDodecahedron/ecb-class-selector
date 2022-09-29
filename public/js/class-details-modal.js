@@ -21,9 +21,12 @@ const modalDisplay = {
   holder: document.querySelector(".modal-holder"),
   name: document.querySelector(".modal-class-name"),
   description: document.querySelector(".modal-class-description"),
+  whatsIncluded: document.querySelector(".modal-class-whats-included"),
+  whatsRequired: document.querySelector(".modal-class-whats-required"),
   duration: document.querySelector(".modal-class-duration"),
   disclaimer: document.querySelector(".modal-class-disclaimer"),
   availability: document.querySelector(".modal-class-availability"),
+  difficulty: document.querySelector(".modal-class-difficulty"),
   price: document.querySelector(".modal-class-price"),
   minimumParticipants: document.querySelector(".modal-class-minimum-participants"),
   ageGroup: document.querySelector(".modal-class-recomended-age-group"),
@@ -40,8 +43,9 @@ const essentialFieldsForWarning = {
   email: document.querySelector(".essential-field-email"),
   phoneNumber: document.querySelector(".essential-field-phone-number"),
   participants: document.querySelector(".essential-field-participants"),
-  date: document.querySelector(".essential-field-date"),
-  time: document.querySelector(".essential-field-time"),
+  // date: document.querySelector(".essential-field-date"),
+  // time: document.querySelector(".essential-field-time"),
+  dateTime: document.querySelector("#essential-field-dateTime"),
   address: document.querySelector(".essential-field-address"),
   CSSTerm: "essential-field-unfilled",
   resetWarningDisplays: () => {
@@ -50,8 +54,8 @@ const essentialFieldsForWarning = {
     essentialFieldsForWarning.email.classList.remove(essentialFieldsForWarning.CSSTerm)
     essentialFieldsForWarning.phoneNumber.classList.remove(essentialFieldsForWarning.CSSTerm)
     essentialFieldsForWarning.participants.classList.remove(essentialFieldsForWarning.CSSTerm)
-    essentialFieldsForWarning.date.classList.remove(essentialFieldsForWarning.CSSTerm)
-    essentialFieldsForWarning.time.classList.remove(essentialFieldsForWarning.CSSTerm)
+    essentialFieldsForWarning.dateTime.classList.remove(essentialFieldsForWarning.CSSTerm)
+    // essentialFieldsForWarning.time.classList.remove(essentialFieldsForWarning.CSSTerm)
     essentialFieldsForWarning.address.classList.remove(essentialFieldsForWarning.CSSTerm)
   },
   checkIfAllNecessaryInfoIsPresent: _formData => {
@@ -89,18 +93,13 @@ const essentialFieldsForWarning = {
     if (
       !_formData.localDate ||
       _formData.localDate == "NaN/NaN/NaN" ||
-      new Date(_formData.localDate) < new Date()
+      new Date(_formData.localDate) < new Date() ||
+      !_formData.localTime
     ) {
       noErrorsDiscovered = false
-      essentialFieldsForWarning.date.classList.add(essentialFieldsForWarning.CSSTerm)
+      essentialFieldsForWarning.dateTime.classList.add(essentialFieldsForWarning.CSSTerm)
     } else {
-      essentialFieldsForWarning.date.classList.remove(essentialFieldsForWarning.CSSTerm)
-    }
-    if (!_formData.localTime) {
-      noErrorsDiscovered = false
-      essentialFieldsForWarning.time.classList.add(essentialFieldsForWarning.CSSTerm)
-    } else {
-      essentialFieldsForWarning.time.classList.remove(essentialFieldsForWarning.CSSTerm)
+      essentialFieldsForWarning.dateTime.classList.remove(essentialFieldsForWarning.CSSTerm)
     }
     if (
       _formData.location.hostAddress.length < 1 &&
@@ -138,8 +137,15 @@ const modalRequest = {
     inPersonHolder: document.querySelector("#class-type-inperson-holder"),
     virtualNoKitHolder: document.querySelector("#class-type-virtual-no-kit-holder"),
   },
+  // 1st choice
   date: document.querySelector("#date"),
   time: document.querySelector("#time"),
+  // 2nd choice
+  dateSecond: document.querySelector("#date-second-choice"),
+  timeSecond: document.querySelector("#time-second-choice"),
+  // 3rd choice
+  dateThird: document.querySelector("#date-third-choice"),
+  timeThird: document.querySelector("#time-third-choice"),
   timezone: document.querySelector("#timezone-offset"),
   timezoneHolders: document.querySelector("#timezone-offset-holder"),
   location: {
@@ -293,6 +299,10 @@ const modalRequest = {
     modalRequest.participants.value = ""
     modalRequest.date.value = ""
     modalRequest.time.value = ""
+    modalRequest.dateSecond.value = ""
+    modalRequest.timeSecond.value = ""
+    modalRequest.dateThird.value = ""
+    modalRequest.timeThird.value = ""
     requestFormTimezoneDropdown[8].selected = "selected"
     modalRequest.location.hostAddress.value = ""
     modalRequest.giftOption.no.checked = true
@@ -307,10 +317,24 @@ const modalRequest = {
     else if (modalRequest.classType.inPerson.checked) _classType = "in person"
     else if (modalRequest.classType.virtualNoKit.checked) _classType = "virtual no kit"
 
+    // main date
     let [estTime, localTime, estDate, localDate] = HELPER_convertArmyTimeToEST(
       modalRequest.time.value,
       modalRequest.timezone.value,
       modalRequest.date.value
+    )
+
+    let [estTimeSecond, localTimeSecond, estDateSecond, localDateSecond] =
+      HELPER_convertArmyTimeToEST(
+        modalRequest.timeSecond.value,
+        modalRequest.timezone.value,
+        modalRequest.dateSecond.value
+      )
+
+    let [estTimeThird, localTimeThird, estDateThird, localDateThird] = HELPER_convertArmyTimeToEST(
+      modalRequest.timeThird.value,
+      modalRequest.timezone.value,
+      modalRequest.dateThird.value
     )
 
     let _ageGroup = ""
@@ -343,6 +367,20 @@ const modalRequest = {
       classType: _classType,
       requestedDate: estDate,
       requestedTime: estTime,
+      dateTimeFallbackOptions: {
+        secondChoice: {
+          requestedDate: estDateSecond,
+          requestedTime: estTimeSecond,
+          localTime: localTimeSecond,
+          localDate: localDateSecond,
+        },
+        thirdChoice: {
+          requestedDate: estDateThird,
+          requestedTime: estTimeThird,
+          localTime: localTimeThird,
+          localDate: localDateThird,
+        },
+      },
       timezone: modalRequest.timezone.value,
       localDate: localDate,
       localTime: localTime,
@@ -360,6 +398,9 @@ const modalRequest = {
     let _data = modalRequest.getFormData()
     if (essentialFieldsForWarning.checkIfAllNecessaryInfoIsPresent(_data)) {
       postInquiry(_data)
+      emailConfirmationToClient(_data)
+      updateClass({ $inc: { numberOfInquiriesSent: 1 } }, currentClassID)
+      emailInquiryToOwner(_data)
       modalDisplay.holder.classList.remove("modal-holder--visible")
       modalDisplay.holder.classList.add("modal-holder--invisible")
       confirmationPopupEmailDisplay.innerHTML = _data.email
@@ -455,6 +496,12 @@ assignFunctionToDotButtons()
 $(function () {
   $("#date").datepicker()
 })
+$(function () {
+  $("#date-second-choice").datepicker()
+})
+$(function () {
+  $("#date-third-choice").datepicker()
+})
 
 // console.log(requestFormTimezoneDropdown)
 // requestFormTimezoneDropdown.innerHTML = ""
@@ -485,18 +532,30 @@ const processClassAvailability = availability => {
 const processClassPricing = price => {
   let priceString = ""
 
-  if (price.hasOnePrice) {
-    priceString = `Price: ${price.singlePrice}`
-  } else {
-    if (price.multiplePrices.virtual.available) {
-      priceString += `<div>Virtual Price: ${price.multiplePrices.virtual.price}</div>`
-    }
-    if (price.multiplePrices.virtualNoKit.available) {
-      priceString += `<div>Virtual (No Kit) Price: ${price.multiplePrices.virtualNoKit.price}</div>`
-    }
-    if (price.multiplePrices.inPerson.available) {
-      priceString += `<div>In Person Price: ${price.multiplePrices.inPerson.price}</div>`
-    }
+  // if (price.hasOnePrice) {
+  //   priceString = `Price: ${price.singlePrice}`
+  // } else {
+  //   if (price.multiplePrices.virtual.available) {
+  //     priceString += `<div>Virtual Price: ${price.multiplePrices.virtual.price}</div>`
+  //   }
+  //   if (price.multiplePrices.virtualNoKit.available) {
+  //     priceString += `<div>Virtual (No Kit) Price: ${price.multiplePrices.virtualNoKit.price}</div>`
+  //   }
+  //   if (price.multiplePrices.inPerson.available) {
+  //     priceString += `<div>In Person Price: ${price.multiplePrices.inPerson.price}</div>`
+  //   }
+  // }
+  if (price.multiplePrices.virtual.available) {
+    priceString += `<div>Virtual Class with DIY Kit Price: ${price.multiplePrices.virtual.price}</div>`
+  }
+  if (price.multiplePrices.virtualNoKit.available) {
+    priceString += `<div>Virtual Class with Shopping List Price: ${price.multiplePrices.virtualNoKit.price}</div>`
+  }
+  if (price.multiplePrices.inPerson.available) {
+    priceString += `<div>In Person Class Price: ${price.multiplePrices.inPerson.price}</div>`
+  }
+  if (price.multiplePrices?.addOn?.available) {
+    priceString += `<div>Add ons for Virtual Classes: ${price.multiplePrices.addOn.price}</div>`
   }
 
   return priceString
@@ -572,14 +631,15 @@ const processClassVideos = video => {
   }
 }
 
-const processClassRequestInputOptions = data => {}
-
 const processClassData = data => {
   modalDisplay.name.innerHTML = data.name
   modalDisplay.description.innerHTML = data.description
+  modalDisplay.whatsIncluded.innerHTML = data.whatsIncluded
+  modalDisplay.whatsRequired.innerHTML = data.whatDoParticipantsNeedToBring
   modalDisplay.duration.innerHTML = `Duration: ${data.duration.string}`
   modalDisplay.disclaimer.innerHTML = `Please note: ${data.disclaimer}`
   modalDisplay.availability.innerHTML = processClassAvailability(data.availability)
+  modalDisplay.difficulty.innerHTML = `Difficulty: ${data.difficulty}`
   modalDisplay.price.innerHTML = processClassPricing(data.price)
   modalDisplay.minimumParticipants.innerHTML = processClassMinimumParticipants(
     data.minimumParticipants
@@ -603,7 +663,6 @@ modalDisplay.requestButton.addEventListener("click", e => {
   modalRequest.holder.classList.toggle("invisible")
 })
 
-console.log(confirmationPopupHolder)
 confirmationPopupOkButton.addEventListener("click", e => {
   confirmationPopupHolder.classList.add("invisible")
 })

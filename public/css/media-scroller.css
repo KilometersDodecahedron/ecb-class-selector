@@ -1,0 +1,28 @@
+.media-scroller{
+    display: grid;
+    grid-auto-flow: column;
+    /* grid-auto-columns: 23%; */
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    grid-gap: 0em;
+    justify-content: start; 
+}
+
+.media-element{
+    padding: 0.7rem;
+    grid-template-rows: min-content;
+}
+
+.media-element > img{
+    inline-size: 100%;
+    object-fit: cover;
+}
+
+.snaps-inline {
+    scroll-snap-type: inline mandatory;
+    scroll-padding-inline: 0.7rem;
+}
+
+.snaps-inline * {
+    scroll-snap-align: start;
+}

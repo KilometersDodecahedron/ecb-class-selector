@@ -73,6 +73,10 @@
   width: 100%;
 }
 
+.modal-full-line-lable {
+  width: 100%;
+}
+
 .modal-carousel-track-container {
   background: lightgreen;
   height: 100%;
@@ -191,7 +195,7 @@
   font-weight: bold;
 }
 
-.request-form-color-group-two .request-label {
+.request-form-color-group-two .request-label, .modal-full-line-lable {
   color: var(--modal-label-color-two);
   font-weight: bold;
 }
@@ -241,6 +245,10 @@ label.request-label.essential-field-unfilled {
 }
 
 label.request-option.essential-field-unfilled {
+  color: red
+}
+
+#essential-field-dateTime.essential-field-unfilled {
   color: red
 }
 

@@ -22,16 +22,79 @@ let currentPageNumber = 1
 let allClasses = []
 let listOfClassesThatFitSearch = []
 
-const fetchClassData = () => {
-  // TODO make Asynch to pull data from AWS
+const fetchClassData = (key, value, isEmbeddedBool) => {
   getAllClasses(_data => {
+    document.querySelector(".bootstrap-mod--nav-holder").classList.remove("d-none")
+    document.querySelector("#site-navigation").classList.remove("d-none")
+
     allClasses = _data
-    listOfClassesThatFitSearch = _data
-    displayCurrentSetOfClasses()
-    if (listOfClassesThatFitSearch.length > maxClassesPerPage) {
-      populateNumberButtons()
+    sortOrder = localStorage.getItem("sortOrder")
+    if (sortOrder == null) {
+      sortOrder = "newest"
+      localStorage.setItem("sortOrder", sortOrder)
     }
+
+    if (paramManager.getParametersFunction("sort") != null) {
+      sortOrder = paramManager.getParametersFunction("sort")
+      localStorage.setItem("sortOrder", sortOrder)
+    }
+    console.log(SEARCHbyString(allClasses, "e"))
+
+    if (key == "searchTerm") {
+      listOfClassesThatFitSearch = SEARCHbyString(allClasses, value)
+      searchFunctions.search.displayKeySearchInTitle(key, value)
+    } else if (!key) {
+      listOfClassesThatFitSearch = allClasses
+    } else if (isEmbeddedBool == "true") {
+      listOfClassesThatFitSearch = SEARCHageGroup(allClasses, value)
+      searchFunctions.search.displayKeySearchInTitle(key, value)
+    } else {
+      listOfClassesThatFitSearch = SEARCHbyKey(allClasses, key, value)
+      searchFunctions.search.displayKeySearchInTitle(key, value)
+    }
+
+    // check search area
+
+    sortThenDisplay(sortOrder)
   })
+}
+
+const sortThenDisplay = sortOrder => {
+  console.log(sortOrder == '"duration"')
+  switch (sortOrder) {
+    case "newest":
+      listOfClassesThatFitSearch = SORTbyRecent(listOfClassesThatFitSearch, true)
+      break
+    case '"newest"':
+      listOfClassesThatFitSearch = SORTbyRecent(listOfClassesThatFitSearch, true)
+      break
+    case "name":
+      listOfClassesThatFitSearch = SORTbyName(listOfClassesThatFitSearch, true)
+      break
+    case '"name"':
+      listOfClassesThatFitSearch = SORTbyName(listOfClassesThatFitSearch, true)
+      break
+    case "duration":
+      listOfClassesThatFitSearch = SORTbyDuration(listOfClassesThatFitSearch, true)
+      break
+    case '"duration"':
+      listOfClassesThatFitSearch = SORTbyDuration(listOfClassesThatFitSearch, true)
+      break
+    case "price":
+      listOfClassesThatFitSearch = SORTbyPrice(listOfClassesThatFitSearch, true)
+      break
+    case '"price"':
+      listOfClassesThatFitSearch = SORTbyPrice(listOfClassesThatFitSearch, true)
+      break
+    default:
+      console.log("?")
+      listOfClassesThatFitSearch = SORTbyRecent(listOfClassesThatFitSearch, true)
+      break
+  }
+
+  searchFunctions.sort.highlightSortOrder(sortOrder)
+
+  displayCurrentSetOfClasses()
 }
 
 const setClassList = () => {
@@ -53,6 +116,9 @@ const displayCurrentSetOfClasses = () => {
     if (currentIndex < listOfClassesThatFitSearch.length) {
       classDisplayHolder.appendChild(createClassDisplayFromTemplate(currentIndex))
     }
+  }
+  if (listOfClassesThatFitSearch.length > maxClassesPerPage) {
+    populateNumberButtons()
   }
 }
 
@@ -81,17 +147,41 @@ const populateNumberButtons = () => {
   numberButtonChangeStyleOfCurrentPageNumber()
 }
 
+const TESTsearchBarDisplay = document.querySelector("#searchBarTest")
+
+// triggers when search bar value changes
+const searchBarChangeEvent = e => {
+  TESTsearchBarDisplay.innerHTML = e.target.value
+}
+// searchBar.addEventListener("input", searchBarChangeEvent)
+
 const createClassDisplayFromTemplate = index => {
   // todo
   const classDisplayClone = displayTemplate.content.cloneNode(true)
   const previewImage = classDisplayClone.querySelector(".class-preview-img")
   const classNameDisplay = classDisplayClone.querySelector(".class-name")
+  const tagDisplay = classDisplayClone.querySelector(".class-preview-tag-display")
+  const durationDisplay = classDisplayClone.querySelector(".class-preview-duration-display")
+  const priceDisplay = classDisplayClone.querySelector(".class-preview-price-display")
+  const difficultyDisplay = classDisplayClone.querySelector(".class-preview-difficulty-display")
   const displayButton = classDisplayClone.querySelector(".btn-class-view")
 
   previewImage.src = listOfClassesThatFitSearch[index].photos[0].src
   previewImage.alt = listOfClassesThatFitSearch[index].photos[0].alt
+  tagDisplay.innerHTML = listOfClassesThatFitSearch[index].tags[0]
+  durationDisplay.innerHTML = listOfClassesThatFitSearch[index].duration.string
+  difficultyDisplay.innerHTML = listOfClassesThatFitSearch[index].difficulty
   displayButton.dataset.classNumber = index
   classNameDisplay.innerHTML = listOfClassesThatFitSearch[index].name
+
+  if (
+    listOfClassesThatFitSearch[index].price.priceForSearchFunction.lowRange ==
+    listOfClassesThatFitSearch[index].price.priceForSearchFunction.highRange
+  ) {
+    priceDisplay.innerHTML = `$${listOfClassesThatFitSearch[index].price.priceForSearchFunction.lowRange}`
+  } else {
+    priceDisplay.innerHTML = `$${listOfClassesThatFitSearch[index].price.priceForSearchFunction.lowRange} - $${listOfClassesThatFitSearch[index].price.priceForSearchFunction.highRange}`
+  }
 
   return classDisplayClone
 }
@@ -108,7 +198,11 @@ const createNumberButtonsFromTemplate = number => {
 }
 
 const viewClassButtonFunction = e => {
-  if (!e.target.classList.contains(viewClassButtonClassName)) return
+  if (
+    !e.target.classList.contains(viewClassButtonClassName) ||
+    e.target.classList.contains(mediaScrollerFunctions.cardButtonClassString)
+  )
+    return
 
   // TODO pass data from button to modal
   processClassData(listOfClassesThatFitSearch[e.target.dataset.classNumber])
@@ -156,6 +250,19 @@ const numberNavButtonFunction = e => {
 
   displayCurrentSetOfClasses()
 }
+const displayBasedOnPathParams = () => {
+  let _key = paramManager.getParametersFunction("key")
+  let _value = paramManager.getParametersFunction("value")
+  let _isEmbeddedBool = paramManager.getParametersFunction("isEmbeddedBool")
+  let _isHomePage = paramManager.getParametersFunction("isHomePage")
+  console.log(_key, _value, _isEmbeddedBool)
+  if (_isHomePage) {
+    mediaScrollerFunctions.populateMediaScrollers()
+    searchFunctions.search.startSearchButton.classList.remove("d-none")
+  } else {
+    fetchClassData(_key, _value, _isEmbeddedBool)
+  }
+}
 
 // all functionality assigned to buttons
 const masterClickEventForBody = e => {
@@ -163,8 +270,9 @@ const masterClickEventForBody = e => {
   browseByCategoryButtonFunction(e)
   browseByTagButtonFunction(e)
   numberNavButtonFunction(e)
+  mediaScrollerFunctions.viewClassButtonFunction(e)
 }
 
-fetchClassData()
+displayBasedOnPathParams()
 
 document.querySelector("body").onclick = masterClickEventForBody

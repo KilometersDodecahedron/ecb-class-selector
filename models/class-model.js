@@ -12,11 +12,17 @@ const classSchema = new Schema({
     required: true,
   },
   description: String,
+  whatsIncluded: String,
+  whatDoParticipantsNeedToBring: String,
   duration: {
     string: String,
     num: Number,
   },
   disclaimer: String,
+  difficulty: {
+    type: String,
+    required: true,
+  },
   availability: {
     virtual: Boolean,
     virtualNoKit: Boolean,
@@ -29,9 +35,10 @@ const classSchema = new Schema({
     customVenue: Boolean,
   },
   price: {
-    hasOnePrice: Boolean,
-    singlePrice: String,
-    priceForSearchFunction: Number,
+    priceForSearchFunction: {
+      lowRange: Number,
+      highRange: Number,
+    },
     multiplePrices: {
       virtual: {
         available: Boolean,
@@ -42,6 +49,10 @@ const classSchema = new Schema({
         price: String,
       },
       inPerson: {
+        available: Boolean,
+        price: String,
+      },
+      addOn: {
         available: Boolean,
         price: String,
       },
@@ -61,9 +72,19 @@ const classSchema = new Schema({
     hasVideo: Boolean,
     link: String,
   },
+  category: {
+    type: String,
+    required: true,
+  },
   tags: [String],
+  numberOfInquiriesSent: Number,
+  featured: {
+    type: Boolean,
+    default: false,
+  },
   dateCreated: { type: Date },
-  dateLastUpdated: { type: Date, default: Date.now },
+  // Did not set date here, so it won't registed incrementing numberOfInquiriesSent as an update
+  dateLastUpdated: { type: Date },
 })
 
 const CraftClass = mongoose.model("CraftClass", classSchema)

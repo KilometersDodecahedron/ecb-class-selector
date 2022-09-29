@@ -1,9 +1,4 @@
-:root {
-    --dropdown-background-color: #a1a0a0;
-    --dropdown-highlight-color: #d8d8d8;
-    --class-background-color: #1d79f0;
-    --class-name-text-color: white;
-}
+@import url("./colors.css");
 
 * {
     box-sizing: border-box;
@@ -11,6 +6,10 @@
 
 body {
     margin: 0;
+}
+
+.full-width {
+    width: 100%;
 }
 
 .flex-vertical {
@@ -34,47 +33,9 @@ body {
     font-size: 3rem;
 }
 
-.nav-search-bar {
-    display: grid;
-    grid-template-columns: minmax(auto, 600px) 90px;
-    justify-content: center;
-    margin-bottom: 15px;
-}
-
 .btn-search {
     margin: 0;
     font-size: 1.2rem;
-}
-
-.nav-dropdown-btn {
-    position: relative;
-}
-
-.nav-dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: var(--dropdown-background-color);
-    padding: 0;
-    z-index: 1;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-}
-
-.nav-dropdown-holder {
-    display: flex;
-    column-gap: 20px;
-    justify-content: center;
-}
-
-.nav-dropdown-element:hover .nav-dropdown-content {
-    display: block;
-}
-
-.nav-dropdown-content div {
-    padding: 2px;
-}
-
-.nav-dropdown-content div:hover {
-    background-color: var(--dropdown-highlight-color);
 }
 
 .class-display {
@@ -106,6 +67,15 @@ body {
     color: white;
 }
 
+.media-scroller .class-holder-element {
+    width: 20.5rem;
+    margin-right: 2rem;
+}
+
+.class-holder-element .glyphicon {
+    margin-right: 0.75rem;
+}
+
 .btn-class-view {
     width: 50px;
 }
@@ -132,4 +102,16 @@ body {
 
 .invisible {
     display: none;
+}
+
+.card-body {
+    min-height: 300px;
+    min-width: 300px;
+    margin-right: 5px;
+}
+
+.dropdown-nav-sort--type-button-current {
+    background-color: red;
+    font-size: 3rem;
+    border: 1px solid black;
 }

@@ -1,5 +1,3 @@
-const testButton3 = document.querySelector("#test-connection-inquiry")
-
 const postInquiry = (_data, _callback) => {
   $.ajax({
     type: "POST",
@@ -61,9 +59,3 @@ const deleteInquiry = (id, callback) => {
     })
     .catch(err => console.log(err))
 }
-
-testButton3.addEventListener("click", () => {
-  getAllInquiries()
-  //   updateInquiry({ ageGroup: "Adult" }, "61df2e638850eca6049658b7")
-  //   deleteInquiry("61df2e638850eca6049658b7")
-})

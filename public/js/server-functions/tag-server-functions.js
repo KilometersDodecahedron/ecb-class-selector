@@ -1,26 +1,26 @@
-const postClass = (_data, callback) => {
+const postTag = (_data, _callback) => {
   let postData = _data
   postData.dateCreated = Date.now()
 
   $.ajax({
     type: "POST",
-    url: "/api/craft_class/create",
+    url: "/api/tag/create",
     dataType: "json",
     data: postData,
   })
     .then(data => {
       console.log(data)
-      if (callback) {
-        callback(data)
+      if (_callback) {
+        _callback(data)
       }
     })
     .catch(err => console.log(err))
 }
 
-const getAllClasses = callback => {
+const getAllTags = callback => {
   $.ajax({
     type: "GET",
-    url: "/api/craft_class",
+    url: "/api/tag",
     context: this,
   })
     .then(data => {
@@ -32,26 +32,10 @@ const getAllClasses = callback => {
     .catch(err => console.log(err))
 }
 
-const getClassesByQuery = (callback, queryParams) => {
-  $.ajax({
-    type: "GET",
-    url: "/api/craft_class",
-    context: this,
-    data: queryParams,
-  })
-    .then(data => {
-      console.log(data)
-      if (callback) {
-        callback(data)
-      }
-    })
-    .catch(err => console.log(err))
-}
-
-const updateClass = (newData, id, callback) => {
+const updateTag = (newData, id, callback) => {
   $.ajax({
     type: "PUT",
-    url: "/api/craft_class/update/" + id,
+    url: "/api/tag/update/" + id,
     context: this,
     data: newData,
   })
@@ -64,10 +48,10 @@ const updateClass = (newData, id, callback) => {
     .catch(err => console.log(err))
 }
 
-const deleteClass = (id, callback) => {
+const deleteTag = (id, callback) => {
   $.ajax({
     type: "DELETE",
-    url: "/api/craft_class/delete/" + id,
+    url: "/api/tag/delete/" + id,
     context: this,
   })
     .then(data => {

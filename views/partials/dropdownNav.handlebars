@@ -1,0 +1,64 @@
+<!-- for use with <use> -->
+<svg xmlns="http://www.w3.org/2000/svg"  hidden>
+    <symbol id="arrow" viewbox="0 0 16 16" >
+        <polyline points="4 6, 8 10, 12 6" stroke="#000" stroke-width="2" fill="transparent" stroke-linecap="round" />
+    </symbol>
+</svg>
+
+<!-- In the real world, all hrefs would have go to real, unique URLs, not a "#" -->
+<nav id="site-navigation" class="site-navigation d-none" aria-label="Clickable Menu Demonstration">
+    <ul class="main-menu clicky-menu no-js">
+        <li>
+            <a class="dropdown-nav-linking--home" href="#">Home</a>
+        </li>
+        <li class="dropdown-nav-linking--categories">
+            <a  href="#">
+                Categories
+                <svg aria-hidden="true" width="16" height="16">
+                    <use xlink:href="#arrow" />
+                </svg>
+            </a>
+            <ul>
+                {{!-- populate from search-functions.js --}}
+            </ul>
+        </li>
+        <li class="dropdown-nav-linking--tags">
+            <a href="#">
+                Tags
+                <svg aria-hidden="true" width="16" height="16">
+                    <use xlink:href="#arrow" />
+                </svg>
+            </a>
+            <ul>
+                {{!-- populate from search-functions.js --}}
+            </ul>
+        </li>
+        <li class="dropdown-nav-linking--age-group">
+            <a href="#">
+                Age Group
+                <svg aria-hidden="true" width="16" height="16">
+                    <use xlink:href="#arrow" />
+                </svg>
+            </a>
+            <ul>
+                {{!-- populate from search-functions.js --}}
+            </ul>
+        </li>
+        <li class="dropdown-nav-linking--skill-level">
+            <a href="#">
+                Skill Level
+                <svg aria-hidden="true" width="16" height="16">
+                    <use xlink:href="#arrow" />
+                </svg>
+            </a>
+            <ul>
+                {{!-- populate from search-functions.js --}}
+            </ul>
+        </li>
+    </ul>
+</nav>
+
+<div class="title">
+    {{!-- set by search-functions.js --}}
+    <span id="key-display"></span><span id="value-display"></span>
+</div>

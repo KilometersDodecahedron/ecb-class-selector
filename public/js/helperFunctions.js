@@ -84,3 +84,12 @@ function validMail(mail) {
 function validPhoneNumber(phoneNumber) {
   return /^(\+\d{1,2}\s?)?1?\-?\.?\s?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/.test(phoneNumber)
 }
+
+function HELPER_capitalizeFirstLetter(_string) {
+  return _string.charAt(0).toUpperCase() + _string.slice(1)
+}
+
+function HELPER_randomizeArray(_array) {
+  let randomizedArray = _array.sort(() => Math.random() - 0.5)
+  return randomizedArray
+}

@@ -1,0 +1,52 @@
+{{!-- class cards --}}
+<template id="display-template">
+    <div class="class-holder-element">
+        <img class="class-preview-img" src="https://picsum.photos/300/300"> 
+        <h2 class="class-name">Class Name</h2>
+        <div>
+            <span class="glyphicon">&#127775;</span>
+            <span class="class-preview-tag-display">Family Event</span>
+        </div>
+        <div>
+            <span class="glyphicon">&#128340;</span>
+            <span class="class-preview-duration-display">2 - 3 Hours</span>
+        </div>
+        <div>
+            <span class="glyphicon">&#127991;</span>
+            <span class="class-preview-price-display">$35 - $80</span>
+        </div>
+        <div>
+            <span class="glyphicon">&#127942;</span>
+            <span class="class-preview-difficulty-display">Intermediate</span>
+        </div>
+        <button class="btn btn-class-view clickable">View</button>
+    </div>
+</template>
+
+{{!-- number butttons --}}
+<template id="number-button-template">
+    <button data-page-number=1 class="btn clickable btn-class-nav"></button>
+</template>
+
+{{!-- carousel slide --}}
+<template id="carouselSlideTemplate">
+    <li class="modal-carousel-slide">
+        <img class="modal-carousel-image" src="https://via.placeholder.com/500/FF0000/FFFFFF?text=Red-Placeholder" alt="">
+    </li>
+</template>
+
+{{!-- nav button --}}
+<template id="carouselNavButton">
+    <button class="modal-carousel-indicator clickable"></button>
+</template>
+
+{{!-- media scroller --}}
+<template id="mediaScrollerTemplate">
+    <h2 class="media-scroller--title">Class Type</h2>
+    <div class="container media-scroller snaps-inline"></div>
+</template>
+
+{{!-- for dropdownNap to populate search items --}}
+<template id="dropdownNavItemTemplate">
+    <li><a class="dropdown-search--link" data-query-key="#" data-query-value="#" href="#"></a></li>
+</template>
