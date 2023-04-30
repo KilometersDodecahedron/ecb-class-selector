@@ -390,7 +390,7 @@ const modalRequest = {
         locationType: _location,
         hostAddress: _address,
       },
-      comments: modalRequest.comments.value,
+      comments: HELPER_preventCrossSiteScripting(modalRequest.comments.value),
     }
     return formData
   },
@@ -430,6 +430,14 @@ const requestFormTimezoneDropdown = document.querySelector("#timezone-offset")
 modalDisplay.closeButton.addEventListener("click", function () {
   modalDisplay.holder.classList.remove("modal-holder--visible")
   modalDisplay.holder.classList.add("modal-holder--invisible")
+})
+
+// close modal when "escape" is pressed
+window.addEventListener("keydown", e => {
+  if (e.key === "Escape") {
+    modalDisplay.holder.classList.remove("modal-holder--visible")
+    modalDisplay.holder.classList.add("modal-holder--invisible")
+  }
 })
 
 const setCarouselDisplayClasses = () => {
@@ -661,6 +669,7 @@ modalRequest.submitButton.addEventListener("click", e => {
 // request button toggle
 modalDisplay.requestButton.addEventListener("click", e => {
   modalRequest.holder.classList.toggle("invisible")
+  modalRequest.form.scrollIntoView()
 })
 
 confirmationPopupOkButton.addEventListener("click", e => {

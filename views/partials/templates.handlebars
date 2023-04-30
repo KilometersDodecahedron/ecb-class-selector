@@ -1,25 +1,31 @@
 {{!-- class cards --}}
 <template id="display-template">
     <div class="class-holder-element">
-        <img class="class-preview-img" src="https://picsum.photos/300/300"> 
-        <h2 class="class-name">Class Name</h2>
-        <div>
-            <span class="glyphicon">&#127775;</span>
-            <span class="class-preview-tag-display">Family Event</span>
-        </div>
-        <div>
-            <span class="glyphicon">&#128340;</span>
-            <span class="class-preview-duration-display">2 - 3 Hours</span>
-        </div>
-        <div>
-            <span class="glyphicon">&#127991;</span>
-            <span class="class-preview-price-display">$35 - $80</span>
-        </div>
-        <div>
-            <span class="glyphicon">&#127942;</span>
-            <span class="class-preview-difficulty-display">Intermediate</span>
-        </div>
-        <button class="btn btn-class-view clickable">View</button>
+        <span class="class-preview-img--container--sizing">
+            <img class="class-preview-img" src="https://picsum.photos/300/300"> 
+        </span>
+        <span class="class-name--holder--sizing">
+            <h2 class="class-name">Class Name</h2>
+        </span>
+        <span class="class-preview--card-data-holder">
+            <div>
+                <span class="glyphicon">&#127775;</span>
+                <span class="class-preview--card-data class-preview-tag-display">Family Event</span>
+            </div>
+            <div>
+                <span class="glyphicon">&#128340;</span>
+                <span class="class-preview--card-data class-preview-duration-display">2 - 3 Hours</span>
+            </div>
+            <div>
+                <span class="glyphicon">&#127991;</span>
+                <span class="class-preview--card-data class-preview-price-display">$35 - $80</span>
+            </div>
+            <div>
+                <span class="glyphicon">&#127942;</span>
+                <span class="class-preview--card-data class-preview-difficulty-display">Intermediate</span>
+            </div>
+        </span>
+        <button class="btn btn-class-view clickable">View Class</button>
     </div>
 </template>
 
@@ -42,7 +48,7 @@
 
 {{!-- media scroller --}}
 <template id="mediaScrollerTemplate">
-    <h2 class="media-scroller--title">Class Type</h2>
+    <h2 class="container media-scroller--title">Class Type</h2>
     <div class="container media-scroller snaps-inline"></div>
 </template>
 

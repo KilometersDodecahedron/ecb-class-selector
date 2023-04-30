@@ -36,14 +36,19 @@
     background-color: var(--dropdown-highlight-color);
 }
 
-.bootstrap-mod--search-bar {
+/* .bootstrap-mod--search-bar {
     display: flex;
     justify-content: flex-end;
     margin-left: auto;
     margin-right: 0;
-}
+} */
 
 .bootstrap-mod--nav-holder{
     padding-left: 1rem;
     padding-right: 1rem;
+    font-family: "Lato";
+}
+
+#site-navigation {
+    font-family: "Lato";
 }

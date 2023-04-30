@@ -6,11 +6,16 @@
     overscroll-behavior-inline: contain;
     grid-gap: 0em;
     justify-content: start; 
+    margin-bottom: 2rem;
 }
 
 .media-element{
     padding: 0.7rem;
     grid-template-rows: min-content;
+}
+
+.media-scroller--title {
+    font-family: "Libre Franklin";
 }
 
 .media-element > img{

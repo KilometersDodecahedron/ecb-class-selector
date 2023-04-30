@@ -93,3 +93,57 @@ function HELPER_randomizeArray(_array) {
   let randomizedArray = _array.sort(() => Math.random() - 0.5)
   return randomizedArray
 }
+
+const INTERNAL_isOverflown = ({ clientWidth, clientHeight, scrollWidth, scrollHeight }) =>
+  scrollWidth > clientWidth || scrollHeight > clientHeight
+
+// called in "script"
+const HELPER_resizeText = ({
+  element,
+  elements,
+  minSize = 10,
+  maxSize = 512,
+  step = 1,
+  unit = "px",
+}) => {
+  ;(elements || [element]).forEach(el => {
+    let i = minSize
+    let overflow = false
+
+    const parent = el.parentNode
+
+    el.setAttribute("backgroud-color", "red")
+    while (!overflow && i < maxSize) {
+      el.style.fontSize = `${i}${unit}`
+      overflow = INTERNAL_isOverflown(parent)
+
+      if (!overflow) i += step
+    }
+
+    // revert to last state where no overflow happened
+    el.style.fontSize = `${i - step}${unit}`
+  })
+}
+
+function HELPER_preventCrossSiteScripting(_string) {
+  let check1 = _string.replaceAll("<", "〘")
+  let check2 = check1.replaceAll(">", "〙")
+  let check3 = check2.replaceAll("(", "〘")
+  let check4 = check3.replaceAll(")", "〙")
+  let check5 = check4.replaceAll("{", "〘")
+  let check6 = check5.replaceAll("}", "〙")
+  let check7 = check6.replaceAll("*", "⭐")
+  let check8 = check7.replaceAll(";", ":")
+  let check9 = check8.replaceAll("$", "﹩")
+  let check10 = check9.replaceAll("&", " and ")
+  let check11 = check10.replaceAll("[", "〘")
+  let check12 = check11.replaceAll("]", "〙")
+  let check13 = check12.replaceAll("SELECT", "select")
+  let check14 = check13.replaceAll("FROM", "from")
+  let check15 = check14.replaceAll("=", " equals ")
+  let check16 = check15.replaceAll("WHERE", "where")
+  let check17 = check16.replaceAll("OR", "or")
+  let check18 = check17.replaceAll("\\", "⑊")
+
+  return check18
+}

@@ -1,4 +1,8 @@
 @import url("./colors.css");
+:root{
+    --image-dimensions: 300px;
+    --title-height: 100px;
+}
 
 * {
     box-sizing: border-box;
@@ -31,6 +35,7 @@ body {
     margin: 0;
     margin-bottom: 30px;
     font-size: 3rem;
+    font-family: 'Lato';
 }
 
 .btn-search {
@@ -40,7 +45,6 @@ body {
 
 .class-display {
     margin: 25px 10%;
-    
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));;
     justify-content: center;
@@ -52,8 +56,38 @@ body {
 }
 
 .class-preview-img {
-    height: 300px;
-    width: 300px;
+    /* height: var(--image-dimensions);
+    width: var(--image-dimensions); */
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.class-preview-img--container--sizing{
+    height: var(--image-dimensions);
+    width: var(--image-dimensions);
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.class-name {
+    margin-top: 1rem;
+    font-family: "Lato";
+}
+
+.class-name--holder--sizing {
+    margin-bottom: 1rem;
+    display: inline-block;
+    height: var(--title-height);
+    width: var(--image-dimensions);
+    text-align: center;
+}
+
+.class-preview--card-data {
+    font-family: "Libre Franklin";
 }
 
 .class-holder-element {
@@ -64,7 +98,11 @@ body {
     padding: 15px;
     padding-bottom: 25px;
     border-radius: 10px;
-    color: white;
+    color: var(--card-text-color);
+}
+
+.class-preview--card-data-holder {
+    text-align: left;
 }
 
 .media-scroller .class-holder-element {
@@ -74,10 +112,6 @@ body {
 
 .class-holder-element .glyphicon {
     margin-right: 0.75rem;
-}
-
-.btn-class-view {
-    width: 50px;
 }
 
 .class-navigation-buttons-holder {
@@ -93,12 +127,6 @@ body {
     margin: 0;
     margin-bottom: 20px;
 }
-
-.btn-number-current-page {
-    font-weight: bold;
-    color: blue;
-}
-
 
 .invisible {
     display: none;

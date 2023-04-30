@@ -1,11 +1,15 @@
 :root {
     --dropdown-background-color: #a1a0a0;
     --dropdown-highlight-color: #d8d8d8;
-    --class-background-color: #1d79f0;
+    --class-background-color: #84a3fa;
     --class-name-text-color: white;
     --ecb-royal-purple: #8A51B0;
+    --ecb-plum: #cc87fa;
     --ecb-deep-green: #384E02;
     --ecb-deep-brown: #443411;
     --ecb-soft-blue: #84A3FA;
     --ecb-pale-lavender: #F5D8FA;
+    --card-text-color: black;
+    --btn-border-color: white;
+    --btn-interior-color: white;
 }

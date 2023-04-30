@@ -4,7 +4,7 @@ const mongoose = require("mongoose")
 
 var routes = require("./routes")
 
-var PORT = process.env.PORT || 8080
+var PORT = process.env.PORT || 6060
 
 var app = express()
 

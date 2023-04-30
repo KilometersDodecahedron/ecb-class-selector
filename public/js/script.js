@@ -38,11 +38,16 @@ const fetchClassData = (key, value, isEmbeddedBool) => {
       sortOrder = paramManager.getParametersFunction("sort")
       localStorage.setItem("sortOrder", sortOrder)
     }
-    console.log(SEARCHbyString(allClasses, "e"))
 
     if (key == "searchTerm") {
       listOfClassesThatFitSearch = SEARCHbyString(allClasses, value)
       searchFunctions.search.displayKeySearchInTitle(key, value)
+    }
+    // display specific class
+    else if (key == "specificClass") {
+      listOfClassesThatFitSearch = SEARCHbyID(allClasses, value)
+      // searchFunctions.search.displayKeySearchInTitle(key, value)
+      openModalAndDisplay(listOfClassesThatFitSearch[0])
     } else if (!key) {
       listOfClassesThatFitSearch = allClasses
     } else if (isEmbeddedBool == "true") {
@@ -50,6 +55,8 @@ const fetchClassData = (key, value, isEmbeddedBool) => {
       searchFunctions.search.displayKeySearchInTitle(key, value)
     } else {
       listOfClassesThatFitSearch = SEARCHbyKey(allClasses, key, value)
+      console.log(allClasses, key, value)
+      console.log(listOfClassesThatFitSearch)
       searchFunctions.search.displayKeySearchInTitle(key, value)
     }
 
@@ -60,7 +67,6 @@ const fetchClassData = (key, value, isEmbeddedBool) => {
 }
 
 const sortThenDisplay = sortOrder => {
-  console.log(sortOrder == '"duration"')
   switch (sortOrder) {
     case "newest":
       listOfClassesThatFitSearch = SORTbyRecent(listOfClassesThatFitSearch, true)
@@ -87,7 +93,6 @@ const sortThenDisplay = sortOrder => {
       listOfClassesThatFitSearch = SORTbyPrice(listOfClassesThatFitSearch, true)
       break
     default:
-      console.log("?")
       listOfClassesThatFitSearch = SORTbyRecent(listOfClassesThatFitSearch, true)
       break
   }
@@ -100,7 +105,6 @@ const sortThenDisplay = sortOrder => {
 const setClassList = () => {
   getAllClasses(_data => {
     classList = _data
-    console.log(classList)
   })
 }
 
@@ -114,12 +118,14 @@ const displayCurrentSetOfClasses = () => {
     let currentIndex = i + startingPoint
 
     if (currentIndex < listOfClassesThatFitSearch.length) {
-      classDisplayHolder.appendChild(createClassDisplayFromTemplate(currentIndex))
+      let newItem = createClassDisplayFromTemplate(currentIndex)
+      classDisplayHolder.appendChild(newItem)
     }
   }
   if (listOfClassesThatFitSearch.length > maxClassesPerPage) {
     populateNumberButtons()
   }
+  HELPER_resizeText({ elements: document.querySelectorAll(".class-name") })
 }
 
 const populateNumberButtons = () => {
@@ -128,7 +134,6 @@ const populateNumberButtons = () => {
   removeAllChildNodes(numberButtonHolderTop)
   clearArray(numberButtonArrayTop)
   clearArray(numberButtonArrayBottom)
-  currentPageNumber = 1
 
   const numberOfPages = Math.ceil(listOfClassesThatFitSearch.length / maxClassesPerPage)
 
@@ -205,8 +210,13 @@ const viewClassButtonFunction = e => {
     return
 
   // TODO pass data from button to modal
-  processClassData(listOfClassesThatFitSearch[e.target.dataset.classNumber])
+  openModalAndDisplay(listOfClassesThatFitSearch[e.target.dataset.classNumber])
+}
 
+const openModalAndDisplay = _indexOfArray => {
+  processClassData(_indexOfArray)
+
+  modalDisplay.closeButton.scrollIntoView()
   modalDisplay.holder.classList.add("modal-holder--visible")
   modalDisplay.holder.classList.remove("modal-holder--invisible")
   modalRequest.holder.classList.add("invisible")
@@ -231,14 +241,10 @@ const numberButtonChangeStyleOfCurrentPageNumber = () => {
 
 const browseByCategoryButtonFunction = e => {
   if (!e.target.classList.contains(categoryButtonDropdownClassName)) return
-
-  console.log("Category")
 }
 
 const browseByTagButtonFunction = e => {
   if (!e.target.classList.contains(tagButtonDropdownClassName)) return
-
-  console.log("tag")
 }
 
 const numberNavButtonFunction = e => {
@@ -246,16 +252,20 @@ const numberNavButtonFunction = e => {
 
   currentPageNumber = e.target.dataset.pageNumber
   numberButtonChangeStyleOfCurrentPageNumber()
-  goToTopOfPage()
+  if (self.innerWidth < 540) {
+    numberButtonHolderTop.scrollIntoView()
+  } else {
+    goToTopOfPage()
+  }
 
   displayCurrentSetOfClasses()
 }
 const displayBasedOnPathParams = () => {
   let _key = paramManager.getParametersFunction("key")
   let _value = paramManager.getParametersFunction("value")
+  console.log(`_value = ${_value}`)
   let _isEmbeddedBool = paramManager.getParametersFunction("isEmbeddedBool")
   let _isHomePage = paramManager.getParametersFunction("isHomePage")
-  console.log(_key, _value, _isEmbeddedBool)
   if (_isHomePage) {
     mediaScrollerFunctions.populateMediaScrollers()
     searchFunctions.search.startSearchButton.classList.remove("d-none")

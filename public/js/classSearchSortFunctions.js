@@ -63,11 +63,25 @@ function SEARCHbyString(_classArray, _searchParameters) {
   return results
 }
 
-function SEARCHbyKey(_classArray, _key, _value) {
+function SEARCHbyID(_classArray, _id) {
   let results = _classArray
   results = results.filter(_entry => {
-    return _entry[_key] == _value
+    return _entry._id == _id
   })
+  return results
+}
+
+function SEARCHbyKey(_classArray, _key, _value) {
+  let results = _classArray
+  if (_key == "tags") {
+    results = results.filter(_entry => {
+      return _entry[_key].includes(_value)
+    })
+  } else {
+    results = results.filter(_entry => {
+      return _entry[_key] == _value
+    })
+  }
   return results
 }
 

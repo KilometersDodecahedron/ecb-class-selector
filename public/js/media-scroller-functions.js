@@ -23,7 +23,7 @@ const mediaScrollerFunctions = {
   scrollerClassDataArray: [],
   // used to populate data in modal
   classDataArray: [],
-  // populate media scrollers
+  // called in "script"
   populateMediaScrollers: () => {
     getAllFeatured(displayData => {
       displayData = displayData.sort((a, b) => (a.displayNumber > b.displayNumber ? 1 : -1))
@@ -32,7 +32,6 @@ const mediaScrollerFunctions = {
         displayData.forEach(scrollerDbEntry => {
           mediaScrollerFunctions.populateScrollerClassDataArray(scrollerDbEntry)
         })
-        console.log(mediaScrollerFunctions.scrollerClassDataArray)
         mediaScrollerFunctions.scrollerClassDataArray.forEach((itemCategory, indexCategory) => {
           let newMediaScroller =
             mediaScrollerFunctions.mediaScrollerTemplate.content.cloneNode(true)
@@ -49,7 +48,7 @@ const mediaScrollerFunctions = {
           })
           mediaScrollerFunctions.holderElement.appendChild(newMediaScroller)
         })
-        console.log(mediaScrollerFunctions.classDataArray)
+        HELPER_resizeText({ elements: document.querySelectorAll(".class-name") })
       })
     })
   },
