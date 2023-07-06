@@ -576,7 +576,9 @@ const processClassPricing = price => {
     price.multiplePrices?.addOn?.available &&
     price.multiplePrices?.addOn?.price != "<p><br></p>"
   ) {
-    priceString += `<div><span class="font-weight-bold">Add ons & Modifiers Available for Virtual Classes:</span><br> ${price.multiplePrices.addOn.price}</div></br>`
+    priceString += `<div><span class="font-weight-bold">Add ons & Modifiers Available for Virtual Classes:</span><br> ${HELPER_removeExtraLineBreaks(
+      price.multiplePrices.addOn.price
+    )}</div></br>`
   }
 
   return priceString
@@ -658,9 +660,11 @@ const processClassVideos = video => {
 
 const processClassData = data => {
   modalDisplay.name.innerHTML = data.name
-  modalDisplay.description.innerHTML = data.description
-  modalDisplay.whatsIncluded.innerHTML = data.whatsIncluded
-  modalDisplay.whatsRequired.innerHTML = data.whatDoParticipantsNeedToBring
+  modalDisplay.description.innerHTML = HELPER_removeExtraLineBreaks(data.description)
+  modalDisplay.whatsIncluded.innerHTML = HELPER_removeExtraLineBreaks(data.whatsIncluded)
+  modalDisplay.whatsRequired.innerHTML = HELPER_removeExtraLineBreaks(
+    data.whatDoParticipantsNeedToBring
+  )
   modalDisplay.duration.innerHTML = `<span class="font-weight-bold">Duration:</span> ${data.duration.string}`
   modalDisplay.disclaimer.innerHTML = `<span class="font-weight-bold">Please note:</span> ${data.disclaimer}`
   modalDisplay.availability.innerHTML = processClassAvailability(data.availability)

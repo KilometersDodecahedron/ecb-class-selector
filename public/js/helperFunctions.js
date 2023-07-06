@@ -147,3 +147,8 @@ function HELPER_preventCrossSiteScripting(_string) {
 
   return check18
 }
+
+const HELPER_removeExtraLineBreaks = _text => {
+  let newText = _text.replaceAll("<p><br></p>", "")
+  return newText
+}
