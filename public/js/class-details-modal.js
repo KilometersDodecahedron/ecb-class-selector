@@ -222,7 +222,7 @@ const modalRequest = {
     }
     if (availabilityTracker > 1) {
       modalRequest.classTypeHolder.classList.remove("invisible")
-      console.log(modalRequest.classTypeHolder.classList)
+      // console.log(modalRequest.classTypeHolder.classList)
     }
 
     // timezone
@@ -415,7 +415,7 @@ const modalRequest = {
       confirmationPopupEmailDisplay.innerHTML = _data.email
       confirmationPopupHolder.classList.remove("invisible")
     } else {
-      console.log(_data)
+      // console.log(_data)
     }
   },
 }

@@ -140,7 +140,7 @@ const searchFunctions = {
       }
     },
     dropdownLinkButtonFunction: e => {
-      console.log(e.target)
+      // console.log(e.target)
     },
     searchBarFunction: e => {
       e.preventDefault()
@@ -186,7 +186,7 @@ const searchFunctions = {
             false
           )
         })
-        console.log(searchFunctions.search.data.categoryArray)
+        // console.log(searchFunctions.search.data.categoryArray)
       })
       getAllTags(data => {
         data.forEach(item => {
@@ -198,7 +198,7 @@ const searchFunctions = {
             false
           )
         })
-        console.log(searchFunctions.search.data.tagArray)
+        // console.log(searchFunctions.search.data.tagArray)
       })
       searchFunctions.search.populateDropdown(
         searchFunctions.search.ageGroupDropdown,
@@ -222,4 +222,4 @@ searchFunctions.sort.startFunction()
 
 const testButton = document.querySelector("#test-connection")
 
-console.log(searchFunctions)
+// console.log(searchFunctions)

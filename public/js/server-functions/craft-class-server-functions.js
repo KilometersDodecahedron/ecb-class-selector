@@ -9,7 +9,7 @@ const postClass = (_data, callback) => {
     data: postData,
   })
     .then(data => {
-      console.log(data)
+      // console.log(data)
       if (callback) {
         callback(data)
       }
@@ -24,7 +24,7 @@ const getAllClasses = callback => {
     context: this,
   })
     .then(data => {
-      console.log(data)
+      // console.log(data)
       if (callback) {
         callback(data)
       }
@@ -40,7 +40,7 @@ const getClassesByQuery = (callback, queryParams) => {
     data: queryParams,
   })
     .then(data => {
-      console.log(data)
+      // console.log(data)
       if (callback) {
         callback(data)
       }
@@ -56,7 +56,7 @@ const updateClass = (newData, id, callback) => {
     data: newData,
   })
     .then(data => {
-      console.log(data)
+      // console.log(data)
       if (callback) {
         callback(data)
       }
@@ -71,7 +71,7 @@ const deleteClass = (id, callback) => {
     context: this,
   })
     .then(data => {
-      console.log(data)
+      // console.log(data)
       if (callback) {
         callback(data)
       }

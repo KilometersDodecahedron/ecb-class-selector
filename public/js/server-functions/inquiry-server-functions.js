@@ -6,7 +6,7 @@ const postInquiry = (_data, _callback) => {
     data: _data,
   })
     .then(data => {
-      console.log(data)
+      // console.log(data)
       if (_callback) {
         _callback(data)
       }
@@ -21,7 +21,7 @@ const getAllInquiries = callback => {
     context: this,
   })
     .then(data => {
-      console.log(data)
+      // console.log(data)
       if (callback) {
         callback(data)
       }
@@ -37,7 +37,7 @@ const updateInquiry = (newData, id, callback) => {
     data: newData,
   })
     .then(data => {
-      console.log(data)
+      // console.log(data)
       if (callback) {
         callback(data)
       }
@@ -52,7 +52,7 @@ const deleteInquiry = (id, callback) => {
     context: this,
   })
     .then(data => {
-      console.log(data)
+      // console.log(data)
       if (callback) {
         callback(data)
       }

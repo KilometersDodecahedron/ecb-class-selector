@@ -55,8 +55,8 @@ const fetchClassData = (key, value, isEmbeddedBool) => {
       searchFunctions.search.displayKeySearchInTitle(key, value)
     } else {
       listOfClassesThatFitSearch = SEARCHbyKey(allClasses, key, value)
-      console.log(allClasses, key, value)
-      console.log(listOfClassesThatFitSearch)
+      // console.log(allClasses, key, value)
+      // console.log(listOfClassesThatFitSearch)
       searchFunctions.search.displayKeySearchInTitle(key, value)
     }
 
@@ -263,7 +263,7 @@ const numberNavButtonFunction = e => {
 const displayBasedOnPathParams = () => {
   let _key = paramManager.getParametersFunction("key")
   let _value = paramManager.getParametersFunction("value")
-  console.log(`_value = ${_value}`)
+  // console.log(`_value = ${_value}`)
   let _isEmbeddedBool = paramManager.getParametersFunction("isEmbeddedBool")
   let _isHomePage = paramManager.getParametersFunction("isHomePage")
   if (_isHomePage) {

@@ -22,7 +22,7 @@ const paramManager = {
 }
 
 const keyParam = paramManager.getParametersFunction("key")
-console.log(keyParam)
+// console.log(keyParam)
 
 // query type: category, tags, age group, availability, skill level
 // query key: ................

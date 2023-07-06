@@ -6,7 +6,7 @@ const emailConfirmationToClient = (_data, _callback) => {
     data: _data,
   })
     .then(data => {
-      console.log(data)
+      // console.log(data)
       if (_callback) {
         _callback(data)
       }
@@ -22,7 +22,7 @@ const emailInquiryToOwner = (_data, _callback) => {
     data: _data,
   })
     .then(data => {
-      console.log(data)
+      // console.log(data)
       if (_callback) {
         _callback(data)
       }

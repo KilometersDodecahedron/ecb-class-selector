@@ -189,8 +189,8 @@ const mediaScrollerFunctions = {
   viewClassButtonFunction: e => {
     if (!e.target.classList.contains(mediaScrollerFunctions.cardButtonClassString)) return
 
-    console.log(mediaScrollerFunctions.classDataArray)
-    console.log(e.target.dataset.categoryNumber)
+    // console.log(mediaScrollerFunctions.classDataArray)
+    // console.log(e.target.dataset.categoryNumber)
     processClassData(
       mediaScrollerFunctions.classDataArray[e.target.dataset.categoryNumber][
         e.target.dataset.classNumber
