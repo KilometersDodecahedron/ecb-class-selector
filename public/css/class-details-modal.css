@@ -35,8 +35,15 @@
   font-family: "Lato";
 }
 
+.modal-colored-input-field {
+  background-color: var(--ecb-pale-lavender);
+  border: none;
+  padding: 0.5rem;
+}
+
 .modal-class--content {
-  font-family: "Libre Franklin";
+  font-family: Arial, Helvetica, sans-serif;
+  /* line-height: 0.6; */
 }
 
 .modal-content-box {
@@ -214,13 +221,13 @@
   border: 0;
 }
 
-.request-form-color-group-one{
+/* .request-form-color-group-one{
   background-color: var(--ecb-pale-lavender)
 }
 
 .request-form-color-group-two{
   background-color: var(--ecb-plum)
-}
+} */
 
 .request-form-color-group-one .request-label {
   color: var(--modal-label-color-one);
@@ -271,7 +278,7 @@ div.request-form-color-group {
   align-items: center;
   padding-top: 1rem;
   padding-bottom: 1rem;
-  background-color: var(--ecb-pale-lavender)
+  /* background-color: var(--ecb-pale-lavender) */
 }
 
 label.request-label.essential-field-unfilled {

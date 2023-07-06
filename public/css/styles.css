@@ -143,3 +143,11 @@ body {
     font-size: 3rem;
     border: 1px solid black;
 }
+
+.add-space-after--short {
+    margin-bottom: 0.6em;
+}
+
+.add-space-after--long {
+    margin-bottom: 2.8rem;
+}

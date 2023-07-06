@@ -101,7 +101,7 @@ const InquirySchema = new Schema({
   ageGroup: {
     type: String,
     required: true,
-    enum: ["Adult", "Child", "Mixed"],
+    enum: ["Adult", "Teen", "Child", "Mixed"],
   },
   giftOption: {
     type: Boolean,

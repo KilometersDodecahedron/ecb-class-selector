@@ -164,9 +164,11 @@ const modalRequest = {
   ageGroup: {
     holder: document.querySelector("#age-group-holder"),
     adult: document.querySelector("#adult-age"),
+    teen: document.querySelector("#teen-age"),
     child: document.querySelector("#child-age"),
     mixed: document.querySelector("#mixed-age"),
     adultHolder: document.querySelector("#adult-age-holder"),
+    teenHolder: document.querySelector("#teen-age-holder"),
     childHolder: document.querySelector("#child-age-holder"),
     mixedHolder: document.querySelector("#mixed-age-holder"),
   },
@@ -232,6 +234,7 @@ const modalRequest = {
     // age
     modalRequest.ageGroup.holder.classList.add("invisible")
     modalRequest.ageGroup.adultHolder.classList.add("invisible")
+    modalRequest.ageGroup.teenHolder.classList.add("invisible")
     modalRequest.ageGroup.childHolder.classList.add("invisible")
     modalRequest.ageGroup.mixedHolder.classList.add("invisible")
     let ageTracker = 0
@@ -245,6 +248,11 @@ const modalRequest = {
       ageTracker++
       modalRequest.ageGroup.childHolder.classList.remove("invisible")
       modalRequest.ageGroup.child.checked = true
+    }
+    if (data.ageGroup?.teen) {
+      ageTracker++
+      modalRequest.ageGroup.teenHolder.classList.remove("invisible")
+      modalRequest.ageGroup.teen.checked = true
     }
     if (data.ageGroup.adult) {
       ageTracker++
@@ -339,6 +347,7 @@ const modalRequest = {
 
     let _ageGroup = ""
     if (modalRequest.ageGroup.child.checked) _ageGroup = "Child"
+    else if (modalRequest.ageGroup.teen.checked) _ageGroup = "Teen"
     else if (modalRequest.ageGroup.adult.checked) _ageGroup = "Adult"
     else if (modalRequest.ageGroup.mixed.checked) _ageGroup = "Mixed"
 
@@ -526,15 +535,16 @@ TimezoneList.forEach(timezone => {
 
 // helper functions
 const processClassAvailability = availability => {
-  const availableArray = []
+  let availableString = ""
 
-  if (availability.virtual) availableArray.push("Virtual, ")
-  if (availability.inPerson) availableArray.push("In Person, ")
+  if (availability.inPerson && availability.virtual) {
+    availableString = "In Person or Virtual"
+  } else if (availability.inPerson) availableString = "In Person"
+  else availableString = "In Person"
 
-  let availabileString = availableArray.join("")
-  availabileString = `Available: ${availabileString.substring(0, availabileString.length - 2)}`
+  let finalString = `<span class="font-weight-bold">Class Availability:</span> ${availableString}`
 
-  return availabileString
+  return finalString
 }
 
 const processClassPricing = price => {
@@ -553,17 +563,20 @@ const processClassPricing = price => {
   //     priceString += `<div>In Person Price: ${price.multiplePrices.inPerson.price}</div>`
   //   }
   // }
+  if (price.multiplePrices.inPerson.available) {
+    priceString += `<div><span class="font-weight-bold">In Person Class Price:</span> ${price.multiplePrices.inPerson.price}</div></br>`
+  }
   if (price.multiplePrices.virtual.available) {
-    priceString += `<div>Virtual Class with DIY Kit Price: ${price.multiplePrices.virtual.price}</div>`
+    priceString += `<div><span class="font-weight-bold">Virtual Class with DIY Kit Price:</span> ${price.multiplePrices.virtual.price}</div></br>`
   }
   if (price.multiplePrices.virtualNoKit.available) {
-    priceString += `<div>Virtual Class with Shopping List Price: ${price.multiplePrices.virtualNoKit.price}</div>`
+    priceString += `<div><span class="font-weight-bold">Virtual Class with Shopping List Price:</span> ${price.multiplePrices.virtualNoKit.price}</div></br>`
   }
-  if (price.multiplePrices.inPerson.available) {
-    priceString += `<div>In Person Class Price: ${price.multiplePrices.inPerson.price}</div>`
-  }
-  if (price.multiplePrices?.addOn?.available) {
-    priceString += `<div>Add ons for Virtual Classes: ${price.multiplePrices.addOn.price}</div>`
+  if (
+    price.multiplePrices?.addOn?.available &&
+    price.multiplePrices?.addOn?.price != "<p><br></p>"
+  ) {
+    priceString += `<div><span class="font-weight-bold">Add ons & Modifiers Available for Virtual Classes:</span><br> ${price.multiplePrices.addOn.price}</div></br>`
   }
 
   return priceString
@@ -573,7 +586,7 @@ const processClassMinimumParticipants = minimumParticipants => {
   let minimumParticipantsString = ""
 
   if (minimumParticipants.hasMinimum) {
-    minimumParticipantsString = `Minimum Participants: ${minimumParticipants.minimum}`
+    minimumParticipantsString = `<span class="font-weight-bold">Minimum Participants:</span> ${minimumParticipants.minimum}`
     modalDisplay.minimumParticipants.classList.remove("invisible")
   } else {
     modalDisplay.minimumParticipants.classList.add("invisible")
@@ -585,12 +598,16 @@ const processClassMinimumParticipants = minimumParticipants => {
 const processClassAge = age => {
   const ageArray = []
 
-  if (age.adult) ageArray.push("Adult, ")
-  if (age.child) ageArray.push("Child, ")
+  if (age.adult) ageArray.push("Adult (Age 21+), ")
+  if (age.teen) ageArray.push("Teen (Age 13 to 20), ")
+  if (age.child) ageArray.push("Child (Age 5 to 12), ")
   if (age.mixed) ageArray.push("Mixed, ")
 
   let ageString = ageArray.join("")
-  ageString = `Age Group: ${ageString.substring(0, ageString.length - 2)}`
+  ageString = `<span class="font-weight-bold">Age Group:</span> ${ageString.substring(
+    0,
+    ageString.length - 2
+  )}`
 
   return ageString
 }
@@ -644,10 +661,10 @@ const processClassData = data => {
   modalDisplay.description.innerHTML = data.description
   modalDisplay.whatsIncluded.innerHTML = data.whatsIncluded
   modalDisplay.whatsRequired.innerHTML = data.whatDoParticipantsNeedToBring
-  modalDisplay.duration.innerHTML = `Duration: ${data.duration.string}`
-  modalDisplay.disclaimer.innerHTML = `Please note: ${data.disclaimer}`
+  modalDisplay.duration.innerHTML = `<span class="font-weight-bold">Duration:</span> ${data.duration.string}`
+  modalDisplay.disclaimer.innerHTML = `<span class="font-weight-bold">Please note:</span> ${data.disclaimer}`
   modalDisplay.availability.innerHTML = processClassAvailability(data.availability)
-  modalDisplay.difficulty.innerHTML = `Difficulty: ${data.difficulty}`
+  modalDisplay.difficulty.innerHTML = `<span class="font-weight-bold">Difficulty:</span> ${data.difficulty}`
   modalDisplay.price.innerHTML = processClassPricing(data.price)
   modalDisplay.minimumParticipants.innerHTML = processClassMinimumParticipants(
     data.minimumParticipants

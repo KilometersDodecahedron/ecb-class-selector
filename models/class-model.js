@@ -64,6 +64,7 @@ const classSchema = new Schema({
   },
   ageGroup: {
     adult: Boolean,
+    teen: Boolean,
     child: Boolean,
     mixed: Boolean,
   },

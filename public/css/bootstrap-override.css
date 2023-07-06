@@ -84,3 +84,10 @@
 .bootstrap-mod--search-bar .btn-primary{
     border-radius: 0;
 }
+
+.font-weight-bold {
+    font-weight: bold;
+    /* color: black;
+    font-size: 1.1em; */
+    /* font-family:"Times New Roman", serif; */
+}
