@@ -5,6 +5,7 @@ const tagRoutes = require("./tags")
 const emailRoutes = require("./email")
 const categoryRoutes = require("./category")
 const mediaSliderRoutes = require("./media-sliders")
+const hostRouting = require("./host-routing.js")
 const testRoutes = require("./test")
 
 router.use("/craft_class", craftClassRoutes)
@@ -13,6 +14,7 @@ router.use("/tag", tagRoutes)
 router.use("/email", emailRoutes)
 router.use("/category", categoryRoutes)
 router.use("/media_slider", mediaSliderRoutes)
+router.use("/host_routing", hostRouting)
 router.use("/test", testRoutes)
 
 module.exports = router

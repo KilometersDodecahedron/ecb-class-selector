@@ -212,6 +212,20 @@
   border: 0;
 }
 
+.modal-class-share-class-btn {
+  margin: 0 auto;
+  font-size: 24px;
+  background-color: var(--class-background-color);
+  padding: 1rem;
+  color: var(--card-text-color);
+  font-weight: bold;
+  border: 0;
+}
+
+.modal-class-share-class-btn-clicked {
+  background-color: #90ee90;
+}
+
 #submit-button{
   background-color: var(--class-background-color);
   font-size: 18px;

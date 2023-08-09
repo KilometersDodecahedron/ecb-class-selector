@@ -33,6 +33,7 @@ const modalDisplay = {
   previewVideo: document.querySelector(".modal-class-preview-video"),
   previewVideoHolder: document.querySelector(".modal-class-preview-video-holder"),
   requestButton: document.querySelector(".modal-class-request-class-btn"),
+  shareButton: document.querySelector(".modal-class-share-class-btn"),
   closeButton: document.querySelector(".modal-x-btn"),
 }
 
@@ -315,6 +316,8 @@ const modalRequest = {
     modalRequest.location.hostAddress.value = ""
     modalRequest.giftOption.no.checked = true
     modalRequest.comments.value = ""
+    modalDisplay.shareButton.innerHTML = "Share Class"
+    modalDisplay.shareButton.classList.remove("modal-class-share-class-btn-clicked")
     essentialFieldsForWarning.resetWarningDisplays()
   },
   getFormData: () => {
@@ -691,6 +694,15 @@ modalRequest.submitButton.addEventListener("click", e => {
 modalDisplay.requestButton.addEventListener("click", e => {
   modalRequest.holder.classList.toggle("invisible")
   modalRequest.form.scrollIntoView()
+})
+
+modalDisplay.shareButton.addEventListener("click", e => {
+  if (baseHostUrl) {
+    modalDisplay.shareButton.classList.add("modal-class-share-class-btn-clicked")
+    modalDisplay.shareButton.innerHTML = "Link Copied to Clipboard"
+    let shareLink = baseHostUrl + "?classid=" + currentClassID
+    navigator.clipboard.writeText(shareLink)
+  }
 })
 
 confirmationPopupOkButton.addEventListener("click", e => {
