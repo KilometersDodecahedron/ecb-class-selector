@@ -37,6 +37,12 @@ const modalDisplay = {
   closeButton: document.querySelector(".modal-x-btn"),
 }
 
+const modalOptionalFieldTitleHolder = {
+  whatsIncluded: document.querySelector("#whats-included-optional-field"),
+  whatsRequired: document.querySelector("#whats-required-optional-field"),
+  disclaimer: document.querySelector(".modal-class-disclaimer"),
+}
+
 // input labels to turn red when not filled
 const essentialFieldsForWarning = {
   firstName: document.querySelector(".essential-field-first-name"),
@@ -318,6 +324,7 @@ const modalRequest = {
     modalRequest.comments.value = ""
     modalDisplay.shareButton.innerHTML = "Share Class"
     modalDisplay.shareButton.classList.remove("modal-class-share-class-btn-clicked")
+
     essentialFieldsForWarning.resetWarningDisplays()
   },
   getFormData: () => {
@@ -577,7 +584,8 @@ const processClassPricing = price => {
   }
   if (
     price.multiplePrices?.addOn?.available &&
-    price.multiplePrices?.addOn?.price != "<p><br></p>"
+    price.multiplePrices?.addOn?.price != "<p><br></p>" &&
+    price.multiplePrices?.addOn?.price != ""
   ) {
     priceString += `<div><span class="font-weight-bold">Add ons & Modifiers Available for Virtual Classes:</span><br> ${HELPER_removeExtraLineBreaks(
       price.multiplePrices.addOn.price
@@ -681,6 +689,23 @@ const processClassData = data => {
   currentClassName = data.name
   processClassPhotos(data.photos)
   processClassVideos(data.video)
+
+  modalOptionalFieldTitleHolder.whatsIncluded.classList.remove("d-none")
+  modalOptionalFieldTitleHolder.whatsRequired.classList.remove("d-none")
+  modalOptionalFieldTitleHolder.disclaimer.classList.remove("d-none")
+
+  if (data.whatsIncluded == "" || data.whatsIncluded == "undefined") {
+    modalOptionalFieldTitleHolder.whatsIncluded.classList.add("d-none")
+  }
+  if (
+    data.whatDoParticipantsNeedToBring == "" ||
+    data.whatDoParticipantsNeedToBring == "undefined"
+  ) {
+    modalOptionalFieldTitleHolder.whatsRequired.classList.add("d-none")
+  }
+  if (data.disclaimer == "") {
+    modalOptionalFieldTitleHolder.disclaimer.classList.add("d-none")
+  }
   modalRequest.processClassRequestInputOptions(data)
 }
 
