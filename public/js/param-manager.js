@@ -8,8 +8,10 @@ const paramManager = {
   },
   urlWithParamConstructorFunction: (keyArray, valueArray) => {
     const baseRoute = window.location.href.split("/?")[0]
+    let urlSearchParams = new URLSearchParams(window.location.search)
+    let hostUrlParam = urlSearchParams.get("host")
 
-    let constructedRoute = baseRoute + "?"
+    let constructedRoute = baseRoute + "?" + "host=" + hostUrlParam + "&"
     if (keyArray) {
       for (let i = 0; i < keyArray.length; i++) {
         constructedRoute += `${keyArray[i]}=${valueArray[i]}&`
