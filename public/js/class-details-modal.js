@@ -544,13 +544,26 @@ TimezoneList.forEach(timezone => {
 // get the info
 
 // helper functions
-const processClassAvailability = availability => {
+const processClassAvailability = data => {
   let availableString = ""
+  let _availableVirtual = false
+  let _availableInPerson = false
 
-  if (availability.inPerson && availability.virtual) {
+  if (
+    data.allowedLocations.montclairWomanClub ||
+    data.price.multiplePrices.virtual.available ||
+    data.price.multiplePrices.virtualNoKit.available
+  ) {
+    _availableVirtual = true
+  }
+  if (data.allowedLocations.boutique || data.allowedLocations.customVenue) {
+    _availableInPerson = true
+  }
+  if (_availableVirtual && _availableInPerson) {
     availableString = "In Person or Virtual"
-  } else if (availability.inPerson) availableString = "In Person"
-  else availableString = "In Person"
+  } else if (_availableInPerson) {
+    availableString = "In Person only"
+  } else availableString = "Virtual only"
 
   let finalString = `<span class="font-weight-bold">Class Availability:</span> ${availableString}`
 
@@ -614,7 +627,7 @@ const processClassAge = age => {
   if (age.adult) ageArray.push("Adult (Age 21+), ")
   if (age.teen) ageArray.push("Teen (Age 13 to 20), ")
   if (age.child) ageArray.push("Child (Age 5 to 12), ")
-  if (age.mixed) ageArray.push("Mixed, ")
+  if (age.mixed) ageArray.push("Baby & Me, ")
 
   let ageString = ageArray.join("")
   ageString = `<span class="font-weight-bold">Age Group:</span> ${ageString.substring(
@@ -678,7 +691,7 @@ const processClassData = data => {
   )
   modalDisplay.duration.innerHTML = `<span class="font-weight-bold">Duration:</span> ${data.duration.string}`
   modalDisplay.disclaimer.innerHTML = `<span class="font-weight-bold">Please note:</span> ${data.disclaimer}`
-  modalDisplay.availability.innerHTML = processClassAvailability(data.availability)
+  modalDisplay.availability.innerHTML = processClassAvailability(data)
   modalDisplay.difficulty.innerHTML = `<span class="font-weight-bold">Difficulty:</span> ${data.difficulty}`
   modalDisplay.price.innerHTML = processClassPricing(data.price)
   modalDisplay.minimumParticipants.innerHTML = processClassMinimumParticipants(

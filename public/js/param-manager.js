@@ -4,6 +4,7 @@ const paramManager = {
   },
   getParametersFunction: paramName => {
     let parameters = new URLSearchParams(window.location.search)
+    console.log(parameters)
     return parameters.get(paramName)
   },
   urlWithParamConstructorFunction: (keyArray, valueArray) => {

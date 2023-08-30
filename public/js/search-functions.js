@@ -68,7 +68,7 @@ const searchFunctions = {
       tagArray: [
         // TODO set programatically
       ],
-      ageGroupArray: ["adult", "child", "mixed"],
+      ageGroupArray: ["adult", "child", "teen", "mixed"],
       skillLevelArray: ["Beginner", "Intermediate", "Advanced"],
     },
     titleDisplay: {
@@ -109,7 +109,12 @@ const searchFunctions = {
         )
         // _archorTarget.dataset.queryKey = key
         // _archorTarget.dataset.queryValue = value
-        _archorTarget.innerHTML = HELPER_capitalizeFirstLetter(value)
+        // This value was originally called "mixed"
+        let checkForNameChange = HELPER_capitalizeFirstLetter(value)
+        if (checkForNameChange == "Mixed" || checkForNameChange == `"Mixed"`) {
+          checkForNameChange = "Baby & Me"
+        }
+        _archorTarget.innerHTML = checkForNameChange
         target.appendChild(_newItem)
       })
     },
@@ -126,6 +131,9 @@ const searchFunctions = {
         case "ageGroup":
           searchFunctions.search.titleDisplay.value.innerHTML = HELPER_capitalizeFirstLetter(value)
           searchFunctions.search.titleDisplay.key.innerHTML = `Age Group: `
+          if (HELPER_capitalizeFirstLetter(value)) {
+            searchFunctions.search.titleDisplay.value.innerHTML = "Baby & Me"
+          }
           break
         case "difficulty":
           searchFunctions.search.titleDisplay.value.innerHTML = HELPER_capitalizeFirstLetter(value)
@@ -219,7 +227,5 @@ const searchFunctions = {
 
 searchFunctions.search.startFunction()
 searchFunctions.sort.startFunction()
-
-const testButton = document.querySelector("#test-connection")
 
 // console.log(searchFunctions)
