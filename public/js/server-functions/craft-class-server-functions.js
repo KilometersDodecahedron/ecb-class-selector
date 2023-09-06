@@ -25,6 +25,7 @@ const getAllClasses = callback => {
   })
     .then(data => {
       // console.log(data)
+      data = data.filter(entry => entry.hidden == false || entry.hidden == null)
       if (callback) {
         callback(data)
       }
@@ -41,6 +42,7 @@ const getClassesByQuery = (callback, queryParams) => {
   })
     .then(data => {
       // console.log(data)
+      data = data.filter(entry => entry.hidden == false || entry.hidden == null)
       if (callback) {
         callback(data)
       }

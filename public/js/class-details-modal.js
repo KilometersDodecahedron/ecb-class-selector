@@ -173,10 +173,12 @@ const modalRequest = {
     adult: document.querySelector("#adult-age"),
     teen: document.querySelector("#teen-age"),
     child: document.querySelector("#child-age"),
+    babyAndMe: document.querySelector("#baby-age"),
     mixed: document.querySelector("#mixed-age"),
     adultHolder: document.querySelector("#adult-age-holder"),
     teenHolder: document.querySelector("#teen-age-holder"),
     childHolder: document.querySelector("#child-age-holder"),
+    babyAndMeHolder: document.querySelector("#baby-age-holder"),
     mixedHolder: document.querySelector("#mixed-age-holder"),
   },
   giftOption: {
@@ -243,6 +245,7 @@ const modalRequest = {
     modalRequest.ageGroup.adultHolder.classList.add("invisible")
     modalRequest.ageGroup.teenHolder.classList.add("invisible")
     modalRequest.ageGroup.childHolder.classList.add("invisible")
+    modalRequest.ageGroup.babyAndMeHolder.classList.add("invisible")
     modalRequest.ageGroup.mixedHolder.classList.add("invisible")
     let ageTracker = 0
 
@@ -260,6 +263,11 @@ const modalRequest = {
       ageTracker++
       modalRequest.ageGroup.teenHolder.classList.remove("invisible")
       modalRequest.ageGroup.teen.checked = true
+    }
+    if (data.ageGroup?.babyAndMe) {
+      ageTracker++
+      modalRequest.ageGroup.babyAndMeHolder.classList.remove("invisible")
+      modalRequest.ageGroup.babyAndMe.checked = true
     }
     if (data.ageGroup.adult) {
       ageTracker++
@@ -359,6 +367,7 @@ const modalRequest = {
     if (modalRequest.ageGroup.child.checked) _ageGroup = "Child"
     else if (modalRequest.ageGroup.teen.checked) _ageGroup = "Teen"
     else if (modalRequest.ageGroup.adult.checked) _ageGroup = "Adult"
+    else if (modalRequest.ageGroup.babyAndMe.checked) _ageGroup = "Baby and Me"
     else if (modalRequest.ageGroup.mixed.checked) _ageGroup = "Mixed"
 
     let _location = ""
@@ -627,7 +636,8 @@ const processClassAge = age => {
   if (age.adult) ageArray.push("Adult (Age 21+), ")
   if (age.teen) ageArray.push("Teen (Age 13 to 20), ")
   if (age.child) ageArray.push("Child (Age 5 to 12), ")
-  if (age.mixed) ageArray.push("Baby & Me, ")
+  if (age.babyAndMe) ageArray.push("Baby and Me, ")
+  if (age.mixed) ageArray.push("Mixed, ")
 
   let ageString = ageArray.join("")
   ageString = `<span class="font-weight-bold">Age Group:</span> ${ageString.substring(

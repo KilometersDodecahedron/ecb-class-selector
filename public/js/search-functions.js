@@ -68,7 +68,7 @@ const searchFunctions = {
       tagArray: [
         // TODO set programatically
       ],
-      ageGroupArray: ["adult", "child", "teen", "mixed"],
+      ageGroupArray: ["adult", "child", "teen", "Baby and Me", "mixed"],
       skillLevelArray: ["Beginner", "Intermediate", "Advanced"],
     },
     titleDisplay: {
@@ -111,9 +111,9 @@ const searchFunctions = {
         // _archorTarget.dataset.queryValue = value
         // This value was originally called "mixed"
         let checkForNameChange = HELPER_capitalizeFirstLetter(value)
-        if (checkForNameChange == "Mixed" || checkForNameChange == `"Mixed"`) {
-          checkForNameChange = "Baby & Me"
-        }
+        // if (checkForNameChange == "Mixed" || checkForNameChange == `"Mixed"`) {
+        //   checkForNameChange = "Baby & Me"
+        // }
         _archorTarget.innerHTML = checkForNameChange
         target.appendChild(_newItem)
       })
@@ -131,9 +131,9 @@ const searchFunctions = {
         case "ageGroup":
           searchFunctions.search.titleDisplay.value.innerHTML = HELPER_capitalizeFirstLetter(value)
           searchFunctions.search.titleDisplay.key.innerHTML = `Age Group: `
-          if (HELPER_capitalizeFirstLetter(value)) {
-            searchFunctions.search.titleDisplay.value.innerHTML = "Baby & Me"
-          }
+          // if (HELPER_capitalizeFirstLetter(value)) {
+          //   searchFunctions.search.titleDisplay.value.innerHTML = "Baby & Me"
+          // }
           break
         case "difficulty":
           searchFunctions.search.titleDisplay.value.innerHTML = HELPER_capitalizeFirstLetter(value)

@@ -88,7 +88,9 @@ function SEARCHbyKey(_classArray, _key, _value) {
 function SEARCHageGroup(_classArray, _age) {
   let results = _classArray
   results = results.filter(_entry => {
-    return _entry.ageGroup[_age] == true
+    if (_age == "Baby and Me") {
+      return _entry.ageGroup.babyAndMe == true
+    } else return _entry.ageGroup[_age] == true
   })
   return results
 }

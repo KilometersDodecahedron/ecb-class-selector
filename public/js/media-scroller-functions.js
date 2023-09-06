@@ -115,6 +115,8 @@ const mediaScrollerFunctions = {
         _sectionName = `Classes for Children`
       } else if (scrollerDbEntry.secondaryData == "adult") {
         _sectionName = `Classes for Adults`
+      } else if (scrollerDbEntry.secondaryData == "Baby and Me") {
+        _sectionName = `Classes for Baby and Me`
       }
     } else if (scrollerDbEntry.mainData == "Newest") {
       _sectionName = "Newly Added"
@@ -147,6 +149,8 @@ const mediaScrollerFunctions = {
           return x.ageGroup.adult === true
         } else if (scrollerDbEntry.secondaryData == "child") {
           return x.ageGroup.child === true
+        } else if (scrollerDbEntry.secondaryData == "Baby and Me") {
+          return x.ageGroup.babyAndMe === true
         } else if (scrollerDbEntry.secondaryData == "mixed") {
           return x.ageGroup.mixed === true
         }

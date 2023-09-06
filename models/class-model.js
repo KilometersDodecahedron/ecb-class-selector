@@ -66,6 +66,7 @@ const classSchema = new Schema({
     adult: Boolean,
     teen: Boolean,
     child: Boolean,
+    babyAndMe: Boolean,
     mixed: Boolean,
   },
   photos: [PhotoSchema],

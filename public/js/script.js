@@ -28,6 +28,7 @@ const fetchClassData = (key, value, isEmbeddedBool) => {
     document.querySelector("#site-navigation").classList.remove("d-none")
 
     allClasses = _data
+
     sortOrder = localStorage.getItem("sortOrder")
     if (sortOrder == null) {
       sortOrder = "newest"
