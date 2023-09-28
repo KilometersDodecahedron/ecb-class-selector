@@ -77,7 +77,7 @@ const constructEmailForOwner = (data, isForClient) => {
     <b>Location:</b> ${data.location.locationType}${
     data.location.locationType == "Host Venue" ? `: ${data.location.hostAddress}` : ``
   }<br>
-    <b>Is this class a gift?:</b> ${data.giftOption ? "Yes" : "No"}<br>
+    <b>Is this class a gift?:</b> ${data.giftOption.true ? "Yes" : "No"}<br>
     ${data.comments != "" ? `<h2>Additional Comments</h2> ${data.comments}` : ``}<br>`
 
   return constructedHTML
