@@ -253,6 +253,8 @@ const numberNavButtonFunction = e => {
 
   currentPageNumber = e.target.dataset.pageNumber
   numberButtonChangeStyleOfCurrentPageNumber()
+  window.parent.postMessage({ scrollToTop: true }, "*")
+
   if (self.innerWidth < 540) {
     numberButtonHolderTop.scrollIntoView()
   } else {
