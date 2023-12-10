@@ -151,3 +151,27 @@ body {
 .add-space-after--long {
     margin-bottom: 2.8rem;
 }
+
+#dropdown-nav--search-bar {
+    position: relative;
+}
+
+#search-bar-dropdown--suggestion--holder {
+    border: 1px solid grey;
+    border-radius: 12px;
+    position: absolute;
+    background-color: white;
+    z-index: 1;
+    left: 0px;
+    top: 40px;
+}
+
+.search-bar-dropdown--suggestion--top {
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
+
+.search-bar-dropdown--suggestion--bottom {
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+}

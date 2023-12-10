@@ -152,3 +152,15 @@ const HELPER_removeExtraLineBreaks = _text => {
   let newText = _text.replaceAll("<p><br></p>", "")
   return newText
 }
+
+function HELPER_getAll2DArrayCombinations(list, n = 0, result = [], current = []) {
+  if (n === list.length) {
+    result.push(current)
+  } else {
+    list[n].forEach(item => {
+      HELPER_getAll2DArrayCombinations(list, n + 1, result, [...current, item])
+    })
+  }
+
+  return result
+}

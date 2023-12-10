@@ -272,6 +272,7 @@ const displayBasedOnPathParams = () => {
   if (_isHomePage) {
     mediaScrollerFunctions.populateMediaScrollers()
     searchFunctions.search.startSearchButton.classList.remove("d-none")
+    fetchClassData(_key, _value, _isEmbeddedBool)
   } else {
     fetchClassData(_key, _value, _isEmbeddedBool)
   }
