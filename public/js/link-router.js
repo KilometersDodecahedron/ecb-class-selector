@@ -14,6 +14,9 @@ if (classIdUrlParam) {
 
 window.addEventListener("message", function (event) {
   baseHostUrl = event.data
+  if (baseHostUrl[0] === "[") {
+    baseHostUrl = "https://theeclecticchicboutique.com/select-a-craft-class/"
+  }
 })
 
 window.parent.postMessage({ pageLoaded: true }, "*")
