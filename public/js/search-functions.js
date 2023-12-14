@@ -408,10 +408,13 @@ const searchFunctions = {
       // console.log(allClasses)
     },
     suggestionFocusOutFunction: e => {
-      setTimeout(() => {
-        searchFunctions.search.suggestionHolder.classList.add("invisible")
-        // console.log("Focus Out")
-      }, 100)
+      if (
+        e.target.classList.contains("search-bar-dropdown--suggestion") ||
+        e.target.classList.contains("search-bar--input")
+      ) {
+        return
+      }
+      searchFunctions.search.suggestionHolder.classList.add("invisible")
     },
     startSearchButtonFunction: e => {
       location.replace(paramManager.urlWithParamConstructorFunction())
@@ -445,10 +448,7 @@ const searchFunctions = {
         "input",
         searchFunctions.search.suggestionFocusFunction
       )
-      searchFunctions.search.searchBar.addEventListener(
-        "focusout",
-        searchFunctions.search.suggestionFocusOutFunction
-      )
+      document.body.addEventListener("click", searchFunctions.search.suggestionFocusOutFunction)
     },
     startFunction: () => {
       getAllCategories(data => {
